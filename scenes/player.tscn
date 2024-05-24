@@ -1,0 +1,38 @@
+[gd_scene load_steps=9 format=3 uid="uid://mq5tsehne7qu"]
+
+[ext_resource type="Script" path="res://scripts/player.cs" id="1_fvafi"]
+[ext_resource type="Texture2D" uid="uid://cyu0j8j4fyjha" path="res://assets/sprites/green.png" id="1_ypxyc"]
+[ext_resource type="PackedScene" uid="uid://blx88ryro77xb" path="res://scenes/bullet.tscn" id="2_4hgjy"]
+[ext_resource type="Texture2D" uid="uid://cd2tuajsgdxxm" path="res://assets/sprites/black.png" id="2_502m1"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e8ipr"]
+texture = ExtResource("1_ypxyc")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rwybl"]
+texture = ExtResource("2_502m1")
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_6hpjs"]
+sources/0 = SubResource("TileSetAtlasSource_e8ipr")
+sources/1 = SubResource("TileSetAtlasSource_rwybl")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v1pvu"]
+size = Vector2(97, 160)
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_fvafi")
+BulletScene = ExtResource("2_4hgjy")
+
+[node name="PlayerSprite" type="TileMap" parent="."]
+position = Vector2(0, 16)
+tile_set = SubResource("TileSet_6hpjs")
+format = 2
+layer_0/tile_data = PackedInt32Array(196606, 1, 0, 262142, 1, 0, 262141, 1, 0, 131070, 1, 0, 65534, 1, 0, -2, 1, 0, -1, 1, 0, -65536, 1, 0, -65535, 1, 0, 1, 1, 0, 65537, 1, 0, 131073, 1, 0, 196609, 1, 0, 196610, 1, 0, -131071, 1, 0, -131072, 1, 0, -65537, 1, 0, -65538, 1, 0, -131074, 1, 0, -131073, 1, 0, -196608, 1, 0, -196607, 1, 0, -262143, 1, 0, -262144, 1, 0, -196609, 1, 0, -196610, 1, 0, -327680, 1, 0, -393216, 1, 0, -327681, 1, 0, -262145, 1, 0, -262142, 1, 0, -196605, 1, 0, -131069, 1, 0, -65533, 1, 0, -196611, 1, 0, -131076, 1, 0, -65540, 1, 0, -4, 1, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_v1pvu")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -138)
