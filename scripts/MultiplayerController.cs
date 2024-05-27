@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class MultiplayerController : Control
 {
@@ -32,6 +33,15 @@ public partial class MultiplayerController : Control
     private void PeerDisconnected(long id)
     {
         GD.Print("Peer Disconnected" + id.ToString());
+		GameManager.Players.Remove(GameManager.Players.Where(x => x.Id == id).First<PlayerInfo>());
+		var players = GetTree().GetNodesInGroup("Player");
+		foreach(Player player in players)
+		{
+			if(player.Name == id.ToString())
+			{
+				player.QueueFree();
+			}
+		}
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
