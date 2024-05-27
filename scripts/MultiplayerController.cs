@@ -85,7 +85,7 @@ public partial class MultiplayerController : Control
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
-	private async void sendPlayerInformation(string name, int id){
+	private void sendPlayerInformation(string name, int id){
 		PlayerInfo playerInfo = new(){
 			Name = name,
 			Id = id
