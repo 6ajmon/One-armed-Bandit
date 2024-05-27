@@ -84,8 +84,8 @@ shape = SubResource("SegmentShape2D_cn1t8")
 script = ExtResource("4_nhysm")
 PlayerScene = ExtResource("5_0pyua")
 
-[node name="Player1SpawnPoint" type="Marker2D" parent="PlayerSpawnPoints"]
-position = Vector2(152, 529)
+[node name="PlayerSpawnPoint0" type="Marker2D" parent="PlayerSpawnPoints"]
+position = Vector2(158, 528)
 
-[node name="Player2SpawnPoint" type="Marker2D" parent="PlayerSpawnPoints"]
-position = Vector2(1121, 529)
+[node name="PlayerSpawnPoint1" type="Marker2D" parent="PlayerSpawnPoints"]
+position = Vector2(1097, 528)

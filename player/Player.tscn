@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bp7aq3etvkdor"]
+[gd_scene load_steps=11 format=3 uid="uid://bp7aq3etvkdor"]
 
 [ext_resource type="Script" path="res://player/Player.cs" id="1_a52xn"]
 [ext_resource type="PackedScene" uid="uid://blx88ryro77xb" path="res://scenes/bullet.tscn" id="2_4yqdd"]
@@ -21,9 +21,18 @@ sources/1 = SubResource("TileSetAtlasSource_rwybl")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v1pvu"]
 size = Vector2(97, 160)
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tvdps"]
+properties/0/path = NodePath(".:syncPosition")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:syncRotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_a52xn")
 BulletScene = ExtResource("2_4yqdd")
+lerpValue = 0.2
 
 [node name="PlayerSprite" type="TileMap" parent="."]
 position = Vector2(0, 16)
@@ -35,8 +44,6 @@ layer_0/tile_data = PackedInt32Array(196606, 1, 0, 262142, 1, 0, 262141, 1, 0, 1
 position = Vector2(-0.5, 0)
 shape = SubResource("RectangleShape2D_v1pvu")
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-
 [node name="GunRotation" type="Node2D" parent="."]
 
 [node name="GunSprite" type="Sprite2D" parent="GunRotation"]
@@ -45,3 +52,8 @@ texture = ExtResource("5_tcr78")
 
 [node name="BulletSpawnPoint" type="Marker2D" parent="GunRotation/GunSprite"]
 position = Vector2(30, -8)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_interval = 0.1
+delta_interval = 0.1
+replication_config = SubResource("SceneReplicationConfig_tvdps")
