@@ -1,16 +1,17 @@
-[gd_scene load_steps=9 format=3 uid="uid://mq5tsehne7qu"]
+[gd_scene load_steps=10 format=3 uid="uid://bp7aq3etvkdor"]
 
-[ext_resource type="Script" path="res://scripts/player.cs" id="1_fvafi"]
-[ext_resource type="Texture2D" uid="uid://cyu0j8j4fyjha" path="res://assets/sprites/green.png" id="1_ypxyc"]
-[ext_resource type="PackedScene" uid="uid://blx88ryro77xb" path="res://scenes/bullet.tscn" id="2_4hgjy"]
-[ext_resource type="Texture2D" uid="uid://cd2tuajsgdxxm" path="res://assets/sprites/black.png" id="2_502m1"]
+[ext_resource type="Script" path="res://player/Player.cs" id="1_a52xn"]
+[ext_resource type="PackedScene" uid="uid://blx88ryro77xb" path="res://scenes/bullet.tscn" id="2_4yqdd"]
+[ext_resource type="Texture2D" uid="uid://cyu0j8j4fyjha" path="res://assets/sprites/green.png" id="3_hj6eo"]
+[ext_resource type="Texture2D" uid="uid://cd2tuajsgdxxm" path="res://assets/sprites/black.png" id="4_2p2kr"]
+[ext_resource type="Texture2D" uid="uid://kweh2udvbcbq" path="res://assets/sprites/gun.png" id="5_tcr78"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e8ipr"]
-texture = ExtResource("1_ypxyc")
+texture = ExtResource("3_hj6eo")
 0:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rwybl"]
-texture = ExtResource("2_502m1")
+texture = ExtResource("4_2p2kr")
 0:0/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_6hpjs"]
@@ -21,8 +22,8 @@ sources/1 = SubResource("TileSetAtlasSource_rwybl")
 size = Vector2(97, 160)
 
 [node name="Player" type="CharacterBody2D"]
-script = ExtResource("1_fvafi")
-BulletScene = ExtResource("2_4hgjy")
+script = ExtResource("1_a52xn")
+BulletScene = ExtResource("2_4yqdd")
 
 [node name="PlayerSprite" type="TileMap" parent="."]
 position = Vector2(0, 16)
@@ -34,5 +35,13 @@ layer_0/tile_data = PackedInt32Array(196606, 1, 0, 262142, 1, 0, 262141, 1, 0, 1
 position = Vector2(-0.5, 0)
 shape = SubResource("RectangleShape2D_v1pvu")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(0, -138)
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+
+[node name="GunRotation" type="Node2D" parent="."]
+
+[node name="GunSprite" type="Sprite2D" parent="GunRotation"]
+position = Vector2(116, 0)
+texture = ExtResource("5_tcr78")
+
+[node name="BulletSpawnPoint" type="Marker2D" parent="GunRotation/GunSprite"]
+position = Vector2(30, -8)
