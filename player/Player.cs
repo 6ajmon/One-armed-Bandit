@@ -17,6 +17,12 @@ public partial class Player : CharacterBody2D
 	}
 	public override void _PhysicsProcess(double _delta)
 	{
-		
+		if(multiplayerSynchronizer.GetMultiplayerAuthority() == Multiplayer.GetUniqueId())
+		{
+			CollisionLayer = 1;
+		}
+		else {
+			CollisionLayer = 0;
+		}
 	}
 }
