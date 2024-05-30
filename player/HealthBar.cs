@@ -8,6 +8,7 @@ public partial class HealthBar : ProgressBar
 	{
 	}
 	
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
 	public void SetHealth(float health)
 	{
 		Value = health;
