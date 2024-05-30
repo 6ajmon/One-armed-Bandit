@@ -8,17 +8,14 @@ public partial class PlayerMovement : Node2D
 	public const float JumpVelocity = -400.0f;
 	private Vector2 syncPosition = new(0, 0);
 	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
-	private MultiplayerSynchronizer multiplayerSynchronizer = null;
 	public override void _Ready()
 	{
 		player = GetParent<Player>();
-		multiplayerSynchronizer = GetNode<MultiplayerSynchronizer>("../MultiplayerSynchronizer");
-		multiplayerSynchronizer.SetMultiplayerAuthority(int.Parse(player.Name));
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if(multiplayerSynchronizer.GetMultiplayerAuthority() == player.Multiplayer.GetUniqueId())
+		if(player.multiplayerSynchronizer.GetMultiplayerAuthority() == player.Multiplayer.GetUniqueId())
 		{
 			Vector2 velocity = player.Velocity;
 
