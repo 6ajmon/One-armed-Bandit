@@ -7,6 +7,8 @@ public partial class Bullet : CharacterBody2D
     public float Speed = 700.0f;
     [Export]
     public float VelocityMultiplier = 1.0f;
+    [Export]
+    public float Damage = 45.0f;
 
     // Get the gravity from the project settings to be synced with RigidBody nodes.
     public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
@@ -49,5 +51,14 @@ public partial class Bullet : CharacterBody2D
     private void OnCollision(KinematicCollision2D collision)
     {
         QueueFree();
+    }
+
+    public void OnBodyEntered(Node body)
+    {
+        if (body is Player player)
+        {
+            player.TakeDamage(Damage);
+            QueueFree();
+        }
     }
 }

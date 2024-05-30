@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bp7aq3etvkdor"]
+[gd_scene load_steps=14 format=3 uid="uid://bp7aq3etvkdor"]
 
 [ext_resource type="Script" path="res://player/Player.cs" id="1_a52xn"]
 [ext_resource type="PackedScene" uid="uid://blx88ryro77xb" path="res://scenes/bullet.tscn" id="2_4yqdd"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://player/PlayerGun.cs" id="5_fmsrl"]
 [ext_resource type="Texture2D" uid="uid://kweh2udvbcbq" path="res://assets/sprites/gun.png" id="5_tcr78"]
 [ext_resource type="Script" path="res://player/PlayerMovement.cs" id="6_6lvfi"]
+[ext_resource type="Script" path="res://player/HealthBar.cs" id="8_alg7h"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e8ipr"]
 texture = ExtResource("3_hj6eo")
@@ -60,6 +61,14 @@ position = Vector2(30, -8)
 
 [node name="PlayerMovement" type="Node2D" parent="."]
 script = ExtResource("6_6lvfi")
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -57.0
+offset_top = 83.0
+offset_right = 60.0
+offset_bottom = 94.0
+show_percentage = false
+script = ExtResource("8_alg7h")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_interval = 0.1
