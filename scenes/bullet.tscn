@@ -7,8 +7,8 @@
 size = Vector2(16, 16)
 
 [node name="Bullet" type="CharacterBody2D"]
-collision_layer = 0
-collision_mask = 2
+collision_layer = 4
+collision_mask = 16
 script = ExtResource("1_j2l1d")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -22,4 +22,11 @@ wait_time = 6.0
 one_shot = true
 autostart = true
 
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="HitboxShape" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_nbsc0")
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="body_entered" from="Hitbox" to="." method="OnBodyEntered"]

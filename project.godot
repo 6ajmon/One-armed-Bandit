@@ -15,6 +15,10 @@ run/main_scene="res://scenes/MultiplayerController.tscn"
 config/features=PackedStringArray("4.2", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GameManager="*res://globals/GameManager.cs"
+
 [display]
 
 window/size/viewport_width=1280
@@ -68,6 +72,9 @@ shoot={
 
 2d_physics/layer_1="player1"
 2d_physics/layer_2="player2"
+2d_physics/layer_3="bullets1"
+2d_physics/layer_4="bullets2"
+2d_physics/layer_5="floor"
 
 [rendering]
 

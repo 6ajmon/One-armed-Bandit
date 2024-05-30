@@ -1,70 +1,59 @@
 using Godot;
 using System;
+using System.Threading;
 
 public partial class Player : CharacterBody2D
 {
-	public const float Speed = 300.0f;
-	public const float JumpVelocity = -400.0f;
+	[Export] private static float MaxHealth = 100.0f;
+	public float CurrentHealth = MaxHealth;
 	[Export] public PackedScene BulletScene;
-	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 
-	public override void _PhysicsProcess(double delta)
+	[Export] public float lerpValue = .1f;
+	public MultiplayerSynchronizer multiplayerSynchronizer = null;
+	private HealthBar healthBar = null;
+
+	public override void _Ready()
 	{
-		Vector2 velocity = Velocity;
+		multiplayerSynchronizer = GetNode<MultiplayerSynchronizer>("MultiplayerSynchronizer");
+		multiplayerSynchronizer.SetMultiplayerAuthority(int.Parse(Name));
 
-		if (!IsOnFloor())
-			velocity.Y += gravity * (float)delta;
+		healthBar = GetNode<HealthBar>("HealthBar");
+		healthBar.MaxValue = MaxHealth;
+		healthBar.Value = CurrentHealth;
 
-		if (Input.IsActionJustPressed("ui_accept") && IsOnFloor())
-			velocity.Y = JumpVelocity;
-
-		Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-		if (direction != Vector2.Zero)
+		GetNode<Label>("NameLabel").Text = Name;
+	}
+	public override void _PhysicsProcess(double _delta)
+	{
+		if(multiplayerSynchronizer.GetMultiplayerAuthority() == Multiplayer.GetUniqueId())
 		{
-			velocity.X = direction.X * Speed;
 		}
-		else
-		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-		}
-
-		Velocity = velocity;
-
-		MoveAndSlide();
-
-		Aim();
-
-		if (Input.IsActionJustPressed("shoot"))
-		{
-			Shoot();
+		else {
 		}
 	}
-	private void Aim(){
-		GetNode<Node2D>("GunRotation").LookAt(GetViewport().GetMousePosition());
-		var angle = GetNode<Node2D>("GunRotation").RotationDegrees % 360;
-		if (angle < 0) angle += 360;
-		if (angle > 360) angle -= 360; 
-		if (angle > 90 && angle < 270) 
-			GetNode<Sprite2D>("GunRotation/GunSprite").FlipV = true;
-		else 
-			GetNode<Sprite2D>("GunRotation/GunSprite").FlipV = false;
-	}
-	private void Shoot()
+	public void TakeDamage(float damage)
 	{
-		Bullet bullet = BulletScene.Instantiate() as Bullet;
-		bullet.RotationDegrees = GetNode<Node2D>("GunRotation").RotationDegrees;
-		bullet.GlobalPosition = GetNode<Marker2D>("GunRotation/GunSprite/BulletSpawnPoint").GlobalPosition;
-	
-		// Adjust the bullet's direction based on the player's facing direction
-		Vector2 adjustedVelocity = Velocity;
-		if (bullet.RotationDegrees > 90 && bullet.RotationDegrees < 270)
+		CurrentHealth -= damage;
+		if (CurrentHealth <= 0)
 		{
-			// If the player is facing left, flip the velocity
-			adjustedVelocity.X = -adjustedVelocity.X;
+			Rpc("Die");
 		}
-	
-		bullet.SetVelocity(adjustedVelocity);
-	
-		GetTree().Root.AddChild(bullet);
+		if (GetNodeOrNull<HealthBar>("HealthBar") != null)
+			healthBar.Rpc("SetHealth", CurrentHealth);
+	}
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	private void Die()
+	{
+		Godot.Timer timer = new();
+		timer.WaitTime = 0.1f; // Delay destruction for a short time
+		timer.OneShot = true;
+		timer.Timeout += ActuallyDie;
+		AddChild(timer);
+		timer.Start();
+	}
+
+	private void ActuallyDie()
+	{
+		QueueFree();
 	}
 }

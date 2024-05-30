@@ -1,10 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://bp7aq3etvkdor"]
+[gd_scene load_steps=14 format=3 uid="uid://bp7aq3etvkdor"]
 
 [ext_resource type="Script" path="res://player/Player.cs" id="1_a52xn"]
 [ext_resource type="PackedScene" uid="uid://blx88ryro77xb" path="res://scenes/bullet.tscn" id="2_4yqdd"]
 [ext_resource type="Texture2D" uid="uid://cyu0j8j4fyjha" path="res://assets/sprites/green.png" id="3_hj6eo"]
 [ext_resource type="Texture2D" uid="uid://cd2tuajsgdxxm" path="res://assets/sprites/black.png" id="4_2p2kr"]
+[ext_resource type="Script" path="res://player/PlayerGun.cs" id="5_fmsrl"]
 [ext_resource type="Texture2D" uid="uid://kweh2udvbcbq" path="res://assets/sprites/gun.png" id="5_tcr78"]
+[ext_resource type="Script" path="res://player/PlayerMovement.cs" id="6_6lvfi"]
+[ext_resource type="Script" path="res://player/HealthBar.cs" id="8_alg7h"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e8ipr"]
 texture = ExtResource("3_hj6eo")
@@ -21,9 +24,20 @@ sources/1 = SubResource("TileSetAtlasSource_rwybl")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v1pvu"]
 size = Vector2(97, 160)
 
-[node name="Player" type="CharacterBody2D"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tvdps"]
+properties/0/path = NodePath("PlayerMovement:syncPosition")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("GunRotation:syncRotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
+position = Vector2(-1, -80)
+collision_mask = 17
 script = ExtResource("1_a52xn")
 BulletScene = ExtResource("2_4yqdd")
+lerpValue = 0.2
 
 [node name="PlayerSprite" type="TileMap" parent="."]
 position = Vector2(0, 16)
@@ -35,9 +49,8 @@ layer_0/tile_data = PackedInt32Array(196606, 1, 0, 262142, 1, 0, 262141, 1, 0, 1
 position = Vector2(-0.5, 0)
 shape = SubResource("RectangleShape2D_v1pvu")
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-
 [node name="GunRotation" type="Node2D" parent="."]
+script = ExtResource("5_fmsrl")
 
 [node name="GunSprite" type="Sprite2D" parent="GunRotation"]
 position = Vector2(116, 0)
@@ -45,3 +58,27 @@ texture = ExtResource("5_tcr78")
 
 [node name="BulletSpawnPoint" type="Marker2D" parent="GunRotation/GunSprite"]
 position = Vector2(30, -8)
+
+[node name="PlayerMovement" type="Node2D" parent="."]
+script = ExtResource("6_6lvfi")
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -57.0
+offset_top = 83.0
+offset_right = 60.0
+offset_bottom = 94.0
+show_percentage = false
+script = ExtResource("8_alg7h")
+
+[node name="NameLabel" type="Label" parent="."]
+offset_left = -19.0
+offset_top = -104.0
+offset_right = 21.0
+offset_bottom = -81.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_interval = 0.1
+delta_interval = 0.1
+replication_config = SubResource("SceneReplicationConfig_tvdps")

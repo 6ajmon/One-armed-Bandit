@@ -1,9 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://bbiebjf1q7ubr"]
+[gd_scene load_steps=16 format=3 uid="uid://bbiebjf1q7ubr"]
 
 [ext_resource type="Texture2D" uid="uid://cyu0j8j4fyjha" path="res://assets/sprites/green.png" id="1_xtnmc"]
 [ext_resource type="Texture2D" uid="uid://dnmvxww8ug6mm" path="res://assets/sprites/purple.png" id="2_bkkq1"]
 [ext_resource type="Texture2D" uid="uid://cd2tuajsgdxxm" path="res://assets/sprites/black.png" id="3_71jcr"]
-[ext_resource type="PackedScene" uid="uid://bp7aq3etvkdor" path="res://scenes/player.tscn" id="4_ysjdo"]
+[ext_resource type="Script" path="res://scripts/PlayerSpawnPoints.cs" id="4_nhysm"]
+[ext_resource type="PackedScene" uid="uid://bp7aq3etvkdor" path="res://player/Player.tscn" id="5_0pyua"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_iynme"]
 texture = ExtResource("1_xtnmc")
@@ -54,6 +55,8 @@ layer_0/tile_data = PackedInt32Array(0, 1, 0, 65536, 1, 0, 131072, 1, 0, 196608,
 
 [node name="Floor" type="StaticBody2D" parent="."]
 position = Vector2(0, 65)
+collision_layer = 16
+collision_mask = 0
 
 [node name="FloorTexture" type="TileMap" parent="Floor"]
 tile_set = SubResource("TileSet_frg2d")
@@ -79,5 +82,12 @@ position = Vector2(54, 20)
 rotation = -1.5708
 shape = SubResource("SegmentShape2D_cn1t8")
 
-[node name="Player" parent="." instance=ExtResource("4_ysjdo")]
-position = Vector2(267, 458)
+[node name="PlayerSpawnPoints" type="Node2D" parent="."]
+script = ExtResource("4_nhysm")
+PlayerScene = ExtResource("5_0pyua")
+
+[node name="PlayerSpawnPoint0" type="Marker2D" parent="PlayerSpawnPoints"]
+position = Vector2(158, 528)
+
+[node name="PlayerSpawnPoint1" type="Marker2D" parent="PlayerSpawnPoints"]
+position = Vector2(1097, 528)
