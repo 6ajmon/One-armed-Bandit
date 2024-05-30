@@ -28,16 +28,25 @@ public partial class Bullet : CharacterBody2D
 
 		Velocity = velocity;
 
-		MoveAndSlide();
+        KinematicCollision2D collision = MoveAndCollide(velocity * (float)delta);
+		if (collision != null)
+        {
+            OnCollision(collision);
+        }
 	}
 
-   public void SetVelocity(Vector2 playerVelocity)
+    public void SetVelocity(Vector2 playerVelocity)
 	{
 		PlayerVelocity = playerVelocity * VelocityMultiplier;
 	}
 
 
     private void _on_timer_timeout()
+    {
+        QueueFree();
+    }
+
+    private void OnCollision(KinematicCollision2D collision)
     {
         QueueFree();
     }

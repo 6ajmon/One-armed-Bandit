@@ -3,13 +3,11 @@ using System;
 
 public partial class Player : CharacterBody2D
 {
-	public const float Speed = 300.0f;
-	public const float JumpVelocity = -400.0f;
+	[Export] private static float MaxHealth = 100.0f;
+	public float Health = MaxHealth;
 	[Export] public PackedScene BulletScene;
-	private Vector2 syncPosition = new(0, 0);
 	private float syncRotation = 0;
-	[Export] private float lerpValue = .1f;
-	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
+	[Export] public float lerpValue = .1f;
 
 	public override void _Ready()
 	{
@@ -19,39 +17,15 @@ public partial class Player : CharacterBody2D
 	{
 		if(GetNode<MultiplayerSynchronizer>("MultiplayerSynchronizer").GetMultiplayerAuthority() == Multiplayer.GetUniqueId())
 		{
-			Vector2 velocity = Velocity;
-
-			if (!IsOnFloor())
-				velocity.Y += gravity * (float)delta;
-
-			if (Input.IsActionJustPressed("ui_accept") && IsOnFloor())
-				velocity.Y = JumpVelocity;
-
-			Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-			if (direction != Vector2.Zero)
-			{
-				velocity.X = direction.X * Speed;
-			}
-			else
-			{
-				velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-			}
-
-			Velocity = velocity;
-
-			MoveAndSlide();
-
 			Aim();
 
 			if (Input.IsActionJustPressed("shoot"))
 			{
 				Rpc("Shoot");
 			}
-			syncPosition = GlobalPosition;
 			syncRotation = GetNode<Node2D>("GunRotation").RotationDegrees;
 		}
 		else {
-			GlobalPosition = GlobalPosition.Lerp(syncPosition, lerpValue);
 			GetNode<Node2D>("GunRotation").RotationDegrees = Mathf.Lerp(GetNode<Node2D>("GunRotation").RotationDegrees, syncRotation, lerpValue);
 		}
 	}

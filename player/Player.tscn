@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://bp7aq3etvkdor"]
+[gd_scene load_steps=12 format=3 uid="uid://bp7aq3etvkdor"]
 
 [ext_resource type="Script" path="res://player/Player.cs" id="1_a52xn"]
 [ext_resource type="PackedScene" uid="uid://blx88ryro77xb" path="res://scenes/bullet.tscn" id="2_4yqdd"]
 [ext_resource type="Texture2D" uid="uid://cyu0j8j4fyjha" path="res://assets/sprites/green.png" id="3_hj6eo"]
 [ext_resource type="Texture2D" uid="uid://cd2tuajsgdxxm" path="res://assets/sprites/black.png" id="4_2p2kr"]
 [ext_resource type="Texture2D" uid="uid://kweh2udvbcbq" path="res://assets/sprites/gun.png" id="5_tcr78"]
+[ext_resource type="Script" path="res://player/PlayerMovement.cs" id="6_6lvfi"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e8ipr"]
 texture = ExtResource("3_hj6eo")
@@ -22,14 +23,16 @@ sources/1 = SubResource("TileSetAtlasSource_rwybl")
 size = Vector2(97, 160)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tvdps"]
-properties/0/path = NodePath(".:syncPosition")
+properties/0/path = NodePath(".:syncRotation")
 properties/0/spawn = true
 properties/0/replication_mode = 1
-properties/1/path = NodePath(".:syncRotation")
+properties/1/path = NodePath("PlayerMovement:syncPosition")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
+position = Vector2(-1, -80)
+collision_mask = 17
 script = ExtResource("1_a52xn")
 BulletScene = ExtResource("2_4yqdd")
 lerpValue = 0.2
@@ -52,6 +55,9 @@ texture = ExtResource("5_tcr78")
 
 [node name="BulletSpawnPoint" type="Marker2D" parent="GunRotation/GunSprite"]
 position = Vector2(30, -8)
+
+[node name="PlayerMovement" type="Node2D" parent="."]
+script = ExtResource("6_6lvfi")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_interval = 0.1

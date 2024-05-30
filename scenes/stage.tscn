@@ -55,6 +55,8 @@ layer_0/tile_data = PackedInt32Array(0, 1, 0, 65536, 1, 0, 131072, 1, 0, 196608,
 
 [node name="Floor" type="StaticBody2D" parent="."]
 position = Vector2(0, 65)
+collision_layer = 16
+collision_mask = 0
 
 [node name="FloorTexture" type="TileMap" parent="Floor"]
 tile_set = SubResource("TileSet_frg2d")
