@@ -21,7 +21,7 @@ public partial class Player : CharacterBody2D
 		healthBar.MaxValue = MaxHealth;
 		healthBar.Value = CurrentHealth;
 
-		GetNode<Label>("NameLabel").Text = Name;
+		GetNode<Label>("NameLabel").Text = Name; //tutaj daje Id gracza zamiast nazwy
 	}
 	public override void _PhysicsProcess(double _delta)
 	{
@@ -37,15 +37,17 @@ public partial class Player : CharacterBody2D
 		if (CurrentHealth <= 0)
 		{
 			Rpc("Die");
+			GameManager.AddScore(int.Parse(Name));
 		}
 		if (GetNodeOrNull<HealthBar>("HealthBar") != null)
 			healthBar.Rpc("SetHealth", CurrentHealth);
 	}
+
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
 	private void Die()
 	{
 		Godot.Timer timer = new();
-		timer.WaitTime = 0.1f; // Delay destruction for a short time
+		timer.WaitTime = 0.1f;
 		timer.OneShot = true;
 		timer.Timeout += ActuallyDie;
 		AddChild(timer);
@@ -54,9 +56,8 @@ public partial class Player : CharacterBody2D
 
 	private void ActuallyDie()
 	{
+		ScoreScene scoreScene = GetNode<ScoreScene>("/root/ScoreScene");
+		scoreScene.ShowScore();
 		QueueFree();
-	}
-	public void SetUpSecondPlayer(){
-		
 	}
 }
