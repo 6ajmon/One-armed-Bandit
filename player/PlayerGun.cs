@@ -5,7 +5,7 @@ public partial class PlayerGun : Node2D
 {
 	private Player player = null;
 	private float syncRotation = 0;
-	private bool canShoot = true;
+	private bool canShoot = false;
 	private bool isFlipped = false;
 	private Sprite2D gunSprite = null;
 	public override void _Ready()

@@ -1,5 +1,6 @@
-[gd_scene load_steps=16 format=3 uid="uid://bbiebjf1q7ubr"]
+[gd_scene load_steps=17 format=3 uid="uid://bbiebjf1q7ubr"]
 
+[ext_resource type="Script" path="res://scripts/Stage.cs" id="1_lavy2"]
 [ext_resource type="Texture2D" uid="uid://cyu0j8j4fyjha" path="res://assets/sprites/green.png" id="1_xtnmc"]
 [ext_resource type="Texture2D" uid="uid://dnmvxww8ug6mm" path="res://assets/sprites/purple.png" id="2_bkkq1"]
 [ext_resource type="Texture2D" uid="uid://cd2tuajsgdxxm" path="res://assets/sprites/black.png" id="3_71jcr"]
@@ -47,6 +48,7 @@ a = Vector2(20, -54)
 b = Vector2(19.9932, 1866)
 
 [node name="Stage" type="Node2D"]
+script = ExtResource("1_lavy2")
 
 [node name="Background" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_3dumn")

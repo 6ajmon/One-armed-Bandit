@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public partial class MultiplayerController : Control
+public partial class MultiplayerController : Panel
 {
 	[Export] private int port = 1234;
 	private string ip = "127.0.0.1";
@@ -95,7 +95,7 @@ public partial class MultiplayerController : Control
 		var scoreScene = ResourceLoader.Load<PackedScene>("res://scenes/ScoreScene.tscn").Instantiate() as Control;
 		GetTree().Root.AddChild(scene);
 		GetTree().Root.AddChild(scoreScene);
-		this.Hide();
+		QueueFree();
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]

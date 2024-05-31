@@ -4,8 +4,7 @@
 
 [sub_resource type="FontVariation" id="FontVariation_yhl4r"]
 
-[node name="MultiplayerController" type="Control"]
-layout_mode = 3
+[node name="MultiplayerController" type="Panel"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
