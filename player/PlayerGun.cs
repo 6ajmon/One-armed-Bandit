@@ -5,18 +5,27 @@ public partial class PlayerGun : Node2D
 {
 	private Player player = null;
 	private float syncRotation = 0;
+	private bool canShoot = true;
 	public override void _Ready()
 	{
 		player = GetParent<Player>();
 	}
 	public override void _Process(double delta)
 	{
+		var timer = GetNode<Timer>("ShootingCooldown");
 		if(player.multiplayerSynchronizer.GetMultiplayerAuthority() == Multiplayer.GetUniqueId())
 		{
 			Aim();
 			if (Input.IsActionJustPressed("shoot"))
 			{
-				Rpc("Shoot");
+				if (canShoot){
+					canShoot = false;
+					timer.Start();
+					Rpc("Shoot");
+				}
+				else{
+					GD.Print("Can't shoot yet " + timer.TimeLeft);
+				}
 			}
 			syncRotation = RotationDegrees;
 		}
@@ -47,5 +56,9 @@ public partial class PlayerGun : Node2D
 		bullet.SetVelocity(player.Velocity);
 	
 		GetTree().Root.AddChild(bullet, true);
+	}
+	private void OnShootingCooldownTimeout()
+	{
+		canShoot = true;
 	}
 }

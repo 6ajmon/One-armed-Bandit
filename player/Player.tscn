@@ -59,6 +59,8 @@ texture = ExtResource("5_tcr78")
 [node name="BulletSpawnPoint" type="Marker2D" parent="GunRotation/GunSprite"]
 position = Vector2(30, -8)
 
+[node name="ShootingCooldown" type="Timer" parent="GunRotation"]
+
 [node name="PlayerMovement" type="Node2D" parent="."]
 script = ExtResource("6_6lvfi")
 
@@ -82,3 +84,5 @@ vertical_alignment = 1
 replication_interval = 0.1
 delta_interval = 0.1
 replication_config = SubResource("SceneReplicationConfig_tvdps")
+
+[connection signal="timeout" from="GunRotation/ShootingCooldown" to="GunRotation" method="OnShootingCooldownTimeout"]

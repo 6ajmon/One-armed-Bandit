@@ -39,7 +39,7 @@ public partial class Bullet : CharacterBody2D
 
     public void SetVelocity(Vector2 playerVelocity)
 	{
-		PlayerVelocity = playerVelocity * VelocityMultiplier;
+		//PlayerVelocity = playerVelocity * VelocityMultiplier;
 	}
 
 
