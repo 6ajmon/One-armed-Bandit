@@ -21,6 +21,9 @@ public partial class PlayerSpawnPoints : Node2D
 				if(point is Marker2D && point.Name == "PlayerSpawnPoint" + index.ToString())
 				{
 					currentPlayer.GlobalPosition = point.GlobalPosition;
+					if (index == 1){
+						currentPlayer.SetUpSecondPlayer();
+					}
 				}
 			}
 			index++;

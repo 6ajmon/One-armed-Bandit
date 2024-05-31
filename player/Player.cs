@@ -56,4 +56,7 @@ public partial class Player : CharacterBody2D
 	{
 		QueueFree();
 	}
+	public void SetUpSecondPlayer(){
+		
+	}
 }
