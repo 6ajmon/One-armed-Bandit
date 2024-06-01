@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://scripts/ScoreScene.cs" id="1_vl55v"]
 
 [node name="ScoreScene" type="Panel"]
+process_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -71,4 +72,4 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 64
 text = "Next Round"
 
-[connection signal="button_down" from="NextRoundButton" to="." method="OnNextRoundButtonDown"]
+[connection signal="pressed" from="NextRoundButton" to="." method="OnNextRoundButtonPressed"]

@@ -17,11 +17,16 @@ public partial class ScoreScene : Panel
 		GetNode<Label>("PlayerScore2").Text = GameManager.Players[1].Score.ToString();
 		this.Show();
 	}
-	private void OnNextRoundButtonDown()
+
+	private void OnNextRoundButtonPressed()
 	{
 		GD.Print("Next Round Button Down");
-		Engine.TimeScale = 1;
-		GetTree().ReloadCurrentScene();
+		GetParent().GetNode<Stage>("Stage").Rpc("ResetRound");
+		Rpc("HideAndUnpause");
+	}
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	private void HideAndUnpause()
+	{
 		this.Hide();
 		GetTree().Paused = false;
 	}
