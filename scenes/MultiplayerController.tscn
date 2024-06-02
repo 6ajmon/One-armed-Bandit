@@ -1,8 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://c5orju6vl8v7n"]
+[gd_scene load_steps=2 format=3 uid="uid://c5orju6vl8v7n"]
 
 [ext_resource type="Script" path="res://scripts/MultiplayerController.cs" id="1_dm8y7"]
-
-[sub_resource type="FontVariation" id="FontVariation_yhl4r"]
 
 [node name="MultiplayerController" type="Panel"]
 anchors_preset = 15
@@ -12,38 +10,73 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_dm8y7")
 
-[node name="LineEdit" type="LineEdit" parent="."]
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -17.0
-offset_top = -28.0
-offset_right = 227.0
-offset_bottom = 68.0
+offset_left = -589.5
+offset_top = 118.0
+offset_right = 589.5
+offset_bottom = 293.0
 grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/bold_font_size = 128
+bbcode_enabled = true
+text = "[b]Jednoręki Bandyta"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+custom_effects = [null]
 
-[node name="Label" type="Label" parent="."]
+[node name="Port" type="LineEdit" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -230.0
-offset_top = -28.0
-offset_right = -36.0
-offset_bottom = 60.0
+offset_left = -122.0
+offset_top = -169.0
+offset_right = 122.0
+offset_bottom = -73.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = SubResource("FontVariation_yhl4r")
 theme_override_font_sizes/font_size = 64
-text = "name:"
-vertical_alignment = 1
+text = "1234"
+placeholder_text = "port"
+
+[node name="Ip" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -283.5
+offset_top = -51.0
+offset_right = 283.5
+offset_bottom = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+text = "127.0.0.1"
+placeholder_text = "ip adress"
+
+[node name="Name" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -283.5
+offset_top = 61.0
+offset_right = 283.5
+offset_bottom = 157.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+placeholder_text = "name"
 
 [node name="GridContainer" type="GridContainer" parent="."]
 layout_mode = 1
@@ -53,9 +86,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -178.0
-offset_top = -444.0
+offset_top = -354.0
 offset_right = 178.0
-offset_bottom = -148.0
+offset_bottom = -58.0
 grow_horizontal = 2
 grow_vertical = 0
 

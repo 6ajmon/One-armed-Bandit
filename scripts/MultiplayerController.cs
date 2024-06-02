@@ -24,7 +24,7 @@ public partial class MultiplayerController : Panel
 
     private void ConnectedToServer()
     {
-		RpcId(1, "sendPlayerInformation", GetNode<LineEdit>("LineEdit").Text, Multiplayer.GetUniqueId());
+		RpcId(1, "sendPlayerInformation", GetNode<LineEdit>("Name").Text, Multiplayer.GetUniqueId());
         GD.Print("Connected to Server");
     }
 
@@ -50,6 +50,8 @@ public partial class MultiplayerController : Panel
 
 	public void _on_host_button_down()
 	{
+		port = int.Parse(GetNode<LineEdit>("Port").Text);
+		ip = GetNode<LineEdit>("Ip").Text;
 		peer = new ENetMultiplayerPeer();
 		var error = peer.CreateServer(port, 2);
 		if (error != Error.Ok)
@@ -60,12 +62,14 @@ public partial class MultiplayerController : Panel
 		peer.Host.Compress(ENetConnection.CompressionMode.RangeCoder);
 
 		Multiplayer.MultiplayerPeer = peer;
-		sendPlayerInformation(GetNode<LineEdit>("LineEdit").Text, 1);
+		sendPlayerInformation(GetNode<LineEdit>("Name").Text, 1);
 		GD.Print("Server Created waiting for players to join");
 	}
 
 	public void _on_join_button_down()
 	{
+		port = int.Parse(GetNode<LineEdit>("Port").Text);
+		ip = GetNode<LineEdit>("Ip").Text;
 		peer = new();
 		peer.CreateClient(ip, port);
 

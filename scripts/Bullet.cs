@@ -4,7 +4,7 @@ using System;
 public partial class Bullet : CharacterBody2D
 {
     [Export]
-    public float Speed = 700.0f;
+    public float Speed = 1100.0f;
     [Export]
     public float VelocityMultiplier = 1.0f;
     [Export]

@@ -5,10 +5,12 @@ public partial class PlayerMovement : Node2D
 {
 	private Player player = null;
 	public const float Speed = 800.0f;
-	public const float JumpVelocity = -600.0f;
+	public const float JumpVelocity = -800.0f;
 	private Vector2 syncPosition = new(0, 0);
 	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 	private int jumpCount = 0;
+	private float airTime = 0.0f;
+	private float bonusGravity = 2.0f;
 	public override void _Ready()
 	{
 		player = GetParent<Player>();
@@ -20,8 +22,16 @@ public partial class PlayerMovement : Node2D
 		{
 			Vector2 velocity = player.Velocity;
 
+			if (player.IsOnFloor())
+			{
+				airTime = 0.0f;
+			}
+			else
+			{
+				airTime += (float)delta;
+			}
 			if (!player.IsOnFloor())
-				velocity.Y += gravity * (float)delta;
+				velocity.Y += (gravity + gravity * airTime * bonusGravity) * (float)delta;
 
 			if (Input.IsActionJustPressed("ui_accept"))
 			{
