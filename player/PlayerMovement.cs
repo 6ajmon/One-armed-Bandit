@@ -4,7 +4,7 @@ using System;
 public partial class PlayerMovement : Node2D
 {
 	private Player player = null;
-	public const float Speed = 400.0f;
+	public const float Speed = 800.0f;
 	public const float JumpVelocity = -600.0f;
 	private Vector2 syncPosition = new(0, 0);
 	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();

@@ -49,6 +49,7 @@ b = Vector2(19.9932, 1866)
 
 [node name="Stage" type="Node2D"]
 script = ExtResource("1_lavy2")
+metadata/_edit_horizontal_guides_ = [-86.0]
 
 [node name="Background" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_3dumn")

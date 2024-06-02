@@ -11,6 +11,8 @@ public partial class Player : CharacterBody2D
 	[Export] public float lerpValue = .1f;
 	public MultiplayerSynchronizer multiplayerSynchronizer = null;
 	private HealthBar healthBar = null;
+	private Godot.Timer spawnProtectionTimer = null;
+	private bool spawnProtected = true;
 
 	public override void _Ready()
 	{
@@ -22,6 +24,8 @@ public partial class Player : CharacterBody2D
 		healthBar.Value = CurrentHealth;
 
 		GetNode<Label>("NameLabel").Text = Name; //tutaj daje Id gracza zamiast nazwy
+
+		ApplySpawnProtection();
 	}
 	public override void _PhysicsProcess(double _delta)
 	{
@@ -31,13 +35,25 @@ public partial class Player : CharacterBody2D
 		else {
 		}
 	}
+	private void ApplySpawnProtection()
+	{
+		spawnProtectionTimer = new Godot.Timer();
+		spawnProtectionTimer.OneShot = true;
+		spawnProtectionTimer.WaitTime = 1.0f;
+		AddChild(spawnProtectionTimer);
+		spawnProtectionTimer.Start();
+		spawnProtectionTimer.Timeout += () => {
+			spawnProtected = false;
+		};
+	}
 	public void TakeDamage(float damage)
 	{
+		if (spawnProtected)
+			return;
 		CurrentHealth -= damage;
 		if (CurrentHealth <= 0)
 		{
 			Rpc("Die");
-			GameManager.AddScore(int.Parse(Name));
 		}
 		if (GetNodeOrNull<HealthBar>("HealthBar") != null)
 			healthBar.Rpc("SetHealth", CurrentHealth);
@@ -56,6 +72,7 @@ public partial class Player : CharacterBody2D
 
 	private void ActuallyDie()
 	{
+		GameManager.AddScore(int.Parse(Name));
 		ScoreScene scoreScene = GetNode<ScoreScene>("/root/ScoreScene");
 		scoreScene.ShowScore();
 		QueueFree();
