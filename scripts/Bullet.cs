@@ -6,8 +6,6 @@ public partial class Bullet : CharacterBody2D
     [Export]
     public float Speed = 1100.0f;
     [Export]
-    public float VelocityMultiplier = 1.0f;
-    [Export]
     public float Damage = 45.0f;
 
     // Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -35,11 +33,6 @@ public partial class Bullet : CharacterBody2D
         {
             OnCollision(collision);
         }
-	}
-
-    public void SetVelocity(Vector2 playerVelocity)
-	{
-		//PlayerVelocity = playerVelocity * VelocityMultiplier;
 	}
 
 

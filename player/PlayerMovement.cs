@@ -16,9 +16,9 @@ public partial class PlayerMovement : Node2D
 	public override void _Ready()
 	{
 		player = GetParent<Player>();
-		jumpVelocity = (2.0f * jumpHeight / timeToPeak) * -1.0f;
-		jumpGravity = (-2.0f * jumpHeight / Mathf.Pow(timeToPeak, 2)) * -1.0f;
-		fallGravity = (-2.0f * jumpHeight / Mathf.Pow(timeToDescend, 2)) * -1.0f;
+		jumpVelocity = -2.0f * jumpHeight / timeToPeak;
+		jumpGravity = 2.0f * jumpHeight / Mathf.Pow(timeToPeak, 2);
+		fallGravity = 2.0f * jumpHeight / Mathf.Pow(timeToDescend, 2);
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -45,7 +45,11 @@ public partial class PlayerMovement : Node2D
 
 			if (player.IsOnFloor())
 				jumpCount = 0;
-				
+			
+			if (Input.IsActionJustPressed("ui_down") && player.IsOnFloor())
+			{
+				player.Position += new Vector2(0, 1);
+			}
 
 			Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
 			if (direction != Vector2.Zero)

@@ -57,8 +57,6 @@ public partial class PlayerGun : Node2D
 		var spawnPoint = GetNode<Marker2D>("GunSprite/BulletSpawnPoint");
 		bullet.GlobalPosition = spawnPoint.GlobalPosition;
 	
-		bullet.SetVelocity(player.Velocity);
-	
 		GetTree().Root.AddChild(bullet, true);
 	}
 	private void OnShootingCooldownTimeout()
