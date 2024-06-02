@@ -40,7 +40,7 @@ position = Vector2(-1, -80)
 collision_mask = 17
 script = ExtResource("1_a52xn")
 BulletScene = ExtResource("2_4yqdd")
-lerpValue = 0.2
+lerpValue = 1.0
 
 [node name="PlayerSprite" type="TileMap" parent="."]
 position = Vector2(0, 16)
@@ -67,6 +67,8 @@ autostart = true
 
 [node name="PlayerMovement" type="Node2D" parent="."]
 script = ExtResource("6_6lvfi")
+jumpHeight = 250.0
+timeToPeak = 0.4
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 offset_left = -57.0
@@ -85,8 +87,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_interval = 0.1
-delta_interval = 0.1
 replication_config = SubResource("SceneReplicationConfig_tvdps")
 
 [connection signal="timeout" from="GunRotation/ShootingCooldown" to="GunRotation" method="OnShootingCooldownTimeout"]

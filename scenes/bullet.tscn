@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://scripts/Bullet.cs" id="1_j2l1d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nbsc0"]
-size = Vector2(16, 16)
+size = Vector2(12.5, 12.5)
 
 [node name="Bullet" type="CharacterBody2D"]
 collision_layer = 4
