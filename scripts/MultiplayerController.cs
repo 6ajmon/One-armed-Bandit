@@ -95,7 +95,7 @@ public partial class MultiplayerController : Panel
 		{
 			GD.Print(player.Name + " is playing");
 		}
-		var scene = ResourceLoader.Load<PackedScene>("res://scenes/stage.tscn").Instantiate() as Node2D;
+		var scene = ResourceLoader.Load<PackedScene>("res://scenes/Stage1.tscn").Instantiate() as Node2D;
 		var scoreScene = ResourceLoader.Load<PackedScene>("res://scenes/ScoreScene.tscn").Instantiate() as Control;
 		GetTree().Root.AddChild(scene);
 		GetTree().Root.AddChild(scoreScene);

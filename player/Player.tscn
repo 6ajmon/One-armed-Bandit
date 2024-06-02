@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://bp7aq3etvkdor"]
 
 [ext_resource type="Script" path="res://player/Player.cs" id="1_a52xn"]
-[ext_resource type="PackedScene" uid="uid://blx88ryro77xb" path="res://scenes/bullet.tscn" id="2_4yqdd"]
+[ext_resource type="PackedScene" uid="uid://blx88ryro77xb" path="res://scenes/Bullet.tscn" id="2_tfcje"]
 [ext_resource type="Texture2D" uid="uid://cyu0j8j4fyjha" path="res://assets/sprites/green.png" id="3_hj6eo"]
 [ext_resource type="Texture2D" uid="uid://cd2tuajsgdxxm" path="res://assets/sprites/black.png" id="4_2p2kr"]
 [ext_resource type="Script" path="res://player/PlayerGun.cs" id="5_fmsrl"]
@@ -39,7 +39,7 @@ properties/2/replication_mode = 1
 position = Vector2(-1, -80)
 collision_mask = 17
 script = ExtResource("1_a52xn")
-BulletScene = ExtResource("2_4yqdd")
+BulletScene = ExtResource("2_tfcje")
 lerpValue = 1.0
 
 [node name="PlayerSprite" type="TileMap" parent="."]
