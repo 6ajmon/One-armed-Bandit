@@ -23,7 +23,8 @@ public partial class PlayerSpawnPoints : Node2D
 					if (point.GetChildren().Count == 0)
 						point.AddChild(currentPlayer, true);
 					point.GetChild<Player>(0).GlobalPosition = point.GlobalPosition;
-					GD.Print("Player " + currentPlayer.Name + " has been spawned at " + currentPlayer.GlobalPosition);
+					if (index != 0)
+						point.GetChild<Player>(0).GetNode<Sprite2D>("PlayerSprite").FlipH = true;
 				}
 			}
 			index++;

@@ -1,28 +1,15 @@
-[gd_scene load_steps=14 format=3 uid="uid://bp7aq3etvkdor"]
+[gd_scene load_steps=10 format=3 uid="uid://bp7aq3etvkdor"]
 
 [ext_resource type="Script" path="res://player/Player.cs" id="1_a52xn"]
 [ext_resource type="PackedScene" uid="uid://blx88ryro77xb" path="res://scenes/Bullet.tscn" id="2_tfcje"]
-[ext_resource type="Texture2D" uid="uid://cyu0j8j4fyjha" path="res://assets/sprites/green.png" id="3_hj6eo"]
-[ext_resource type="Texture2D" uid="uid://cd2tuajsgdxxm" path="res://assets/sprites/black.png" id="4_2p2kr"]
+[ext_resource type="Texture2D" uid="uid://qmy6c43hvw6c" path="res://assets/sprites/greenskelly.png" id="3_64fnp"]
 [ext_resource type="Script" path="res://player/PlayerGun.cs" id="5_fmsrl"]
-[ext_resource type="Texture2D" uid="uid://kweh2udvbcbq" path="res://assets/sprites/gun.png" id="5_tcr78"]
+[ext_resource type="Texture2D" uid="uid://dimxtwgfjpawd" path="res://assets/sprites/greenskellyarm.png" id="5_m8t85"]
 [ext_resource type="Script" path="res://player/PlayerMovement.cs" id="6_6lvfi"]
 [ext_resource type="Script" path="res://player/HealthBar.cs" id="8_alg7h"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e8ipr"]
-texture = ExtResource("3_hj6eo")
-0:0/0 = 0
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rwybl"]
-texture = ExtResource("4_2p2kr")
-0:0/0 = 0
-
-[sub_resource type="TileSet" id="TileSet_6hpjs"]
-sources/0 = SubResource("TileSetAtlasSource_e8ipr")
-sources/1 = SubResource("TileSetAtlasSource_rwybl")
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v1pvu"]
-size = Vector2(97, 160)
+size = Vector2(41, 119.25)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tvdps"]
 properties/0/path = NodePath("PlayerMovement:syncPosition")
@@ -42,25 +29,24 @@ script = ExtResource("1_a52xn")
 BulletScene = ExtResource("2_tfcje")
 lerpValue = 1.0
 
-[node name="PlayerSprite" type="TileMap" parent="."]
-position = Vector2(0, 16)
-tile_set = SubResource("TileSet_6hpjs")
-format = 2
-layer_0/tile_data = PackedInt32Array(196606, 1, 0, 262142, 1, 0, 262141, 1, 0, 131070, 1, 0, 65534, 1, 0, -2, 1, 0, -1, 1, 0, -65536, 1, 0, -65535, 1, 0, 1, 1, 0, 65537, 1, 0, 131073, 1, 0, 196609, 1, 0, 196610, 1, 0, -131071, 1, 0, -131072, 1, 0, -65537, 1, 0, -65538, 1, 0, -131074, 1, 0, -131073, 1, 0, -196608, 1, 0, -196607, 1, 0, -262143, 1, 0, -262144, 1, 0, -196609, 1, 0, -196610, 1, 0, -327680, 1, 0, -393216, 1, 0, -327681, 1, 0, -262145, 1, 0, -262142, 1, 0, -196605, 1, 0, -131069, 1, 0, -65533, 1, 0, -196611, 1, 0, -131076, 1, 0, -65540, 1, 0, -4, 1, 0)
+[node name="PlayerSprite" type="Sprite2D" parent="."]
+position = Vector2(-5, 8)
+texture = ExtResource("3_64fnp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 0)
+position = Vector2(3.5, 17.625)
 shape = SubResource("RectangleShape2D_v1pvu")
 
 [node name="GunRotation" type="Node2D" parent="."]
+position = Vector2(1, 13)
 script = ExtResource("5_fmsrl")
 
 [node name="GunSprite" type="Sprite2D" parent="GunRotation"]
-position = Vector2(116, 0)
-texture = ExtResource("5_tcr78")
+position = Vector2(38, 0)
+texture = ExtResource("5_m8t85")
 
 [node name="BulletSpawnPoint" type="Marker2D" parent="GunRotation/GunSprite"]
-position = Vector2(30, -8)
+position = Vector2(63, 0)
 
 [node name="ShootingCooldown" type="Timer" parent="GunRotation"]
 autostart = true

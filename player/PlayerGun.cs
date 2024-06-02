@@ -43,10 +43,14 @@ public partial class PlayerGun : Node2D
 		var angle = RotationDegrees % 360;
 		if (angle < 0) angle += 360;
 		if (angle > 360) angle -= 360; 
-		if (angle > 90 && angle < 270) 
+		if (angle > 90 && angle < 270) {
 			gunSprite.FlipV = true;
-		else 
+			player.GetNode<Sprite2D>("PlayerSprite").FlipH = true;
+		}
+		else {
 			gunSprite.FlipV = false;
+			player.GetNode<Sprite2D>("PlayerSprite").FlipH = false;
+		}
 	}
 	
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
