@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bp7aq3etvkdor"]
+[gd_scene load_steps=12 format=3 uid="uid://bp7aq3etvkdor"]
 
 [ext_resource type="Script" path="res://player/Player.cs" id="1_a52xn"]
 [ext_resource type="PackedScene" uid="uid://blx88ryro77xb" path="res://scenes/Bullet.tscn" id="2_tfcje"]
@@ -6,10 +6,12 @@
 [ext_resource type="Script" path="res://player/PlayerGun.cs" id="5_fmsrl"]
 [ext_resource type="Texture2D" uid="uid://dimxtwgfjpawd" path="res://assets/sprites/greenskellyarm.png" id="5_m8t85"]
 [ext_resource type="Script" path="res://player/PlayerMovement.cs" id="6_6lvfi"]
+[ext_resource type="Script" path="res://player/AmmoBar.cs" id="6_pa6ni"]
+[ext_resource type="Theme" uid="uid://rw0j48vir218" path="res://assets/other/Theme.tres" id="7_hjiyx"]
 [ext_resource type="Script" path="res://player/HealthBar.cs" id="8_alg7h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v1pvu"]
-size = Vector2(41, 119.25)
+size = Vector2(41, 126)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tvdps"]
 properties/0/path = NodePath("PlayerMovement:syncPosition")
@@ -34,7 +36,7 @@ position = Vector2(-5, 8)
 texture = ExtResource("3_64fnp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(3.5, 17.625)
+position = Vector2(3.5, 17)
 shape = SubResource("RectangleShape2D_v1pvu")
 
 [node name="GunRotation" type="Node2D" parent="."]
@@ -49,7 +51,21 @@ texture = ExtResource("5_m8t85")
 position = Vector2(63, 0)
 
 [node name="ShootingCooldown" type="Timer" parent="GunRotation"]
+wait_time = 0.4
 autostart = true
+
+[node name="Reload" type="Timer" parent="GunRotation"]
+wait_time = 2.5
+one_shot = true
+
+[node name="AmmoBar" type="ProgressBar" parent="GunRotation"]
+offset_left = 53.0
+offset_top = -15.0
+offset_right = 101.0
+offset_bottom = -6.0
+theme = ExtResource("7_hjiyx")
+show_percentage = false
+script = ExtResource("6_pa6ni")
 
 [node name="PlayerMovement" type="Node2D" parent="."]
 script = ExtResource("6_6lvfi")
@@ -57,10 +73,18 @@ jumpHeight = 250.0
 timeToPeak = 0.4
 
 [node name="HealthBar" type="ProgressBar" parent="."]
-offset_left = -57.0
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -58.5
 offset_top = 83.0
-offset_right = 60.0
+offset_right = 58.5
 offset_bottom = 94.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("7_hjiyx")
 show_percentage = false
 script = ExtResource("8_alg7h")
 
@@ -76,3 +100,4 @@ vertical_alignment = 1
 replication_config = SubResource("SceneReplicationConfig_tvdps")
 
 [connection signal="timeout" from="GunRotation/ShootingCooldown" to="GunRotation" method="OnShootingCooldownTimeout"]
+[connection signal="timeout" from="GunRotation/Reload" to="GunRotation" method="OnReloadTimeout"]

@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://c5orju6vl8v7n"]
+[gd_scene load_steps=4 format=3 uid="uid://c5orju6vl8v7n"]
 
 [ext_resource type="Script" path="res://scripts/MultiplayerController.cs" id="1_dm8y7"]
+[ext_resource type="Theme" uid="uid://rw0j48vir218" path="res://assets/other/Theme.tres" id="2_0qoyq"]
+[ext_resource type="Texture2D" uid="uid://b4ichn0fqb4gb" path="res://assets/sprites/title.png" id="3_p1ko8"]
 
 [node name="MultiplayerController" type="Panel"]
 anchors_preset = 15
@@ -10,23 +12,17 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_dm8y7")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
+[node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -589.5
-offset_top = 118.0
-offset_right = 589.5
-offset_bottom = 293.0
+offset_left = -931.5
+offset_top = 116.0
+offset_right = 931.5
+offset_bottom = 323.0
 grow_horizontal = 2
-theme_override_font_sizes/bold_font_size = 128
-bbcode_enabled = true
-text = "[b]Jednoręki Bandyta"
-fit_content = true
-scroll_active = false
-autowrap_mode = 0
-custom_effects = [null]
+texture = ExtResource("3_p1ko8")
 
 [node name="Port" type="LineEdit" parent="."]
 layout_mode = 1
@@ -41,6 +37,7 @@ offset_right = 122.0
 offset_bottom = -73.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_0qoyq")
 theme_override_font_sizes/font_size = 64
 text = "1234"
 placeholder_text = "port"
@@ -58,6 +55,7 @@ offset_right = 283.5
 offset_bottom = 45.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_0qoyq")
 theme_override_font_sizes/font_size = 64
 text = "127.0.0.1"
 placeholder_text = "ip adress"
@@ -75,6 +73,7 @@ offset_right = 283.5
 offset_bottom = 157.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_0qoyq")
 theme_override_font_sizes/font_size = 64
 placeholder_text = "name"
 
@@ -94,17 +93,20 @@ grow_vertical = 0
 
 [node name="Host" type="Button" parent="GridContainer"]
 layout_mode = 2
+theme = ExtResource("2_0qoyq")
 theme_override_font_sizes/font_size = 64
 text = "Host"
 
 [node name="Join" type="Button" parent="GridContainer"]
 layout_mode = 2
+theme = ExtResource("2_0qoyq")
 theme_override_font_sizes/font_size = 64
 text = "Join
 "
 
 [node name="StartGame" type="Button" parent="GridContainer"]
 layout_mode = 2
+theme = ExtResource("2_0qoyq")
 theme_override_font_sizes/font_size = 64
 text = "Start Game"
 
