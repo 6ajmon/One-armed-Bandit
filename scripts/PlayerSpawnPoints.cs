@@ -10,7 +10,6 @@ public partial class PlayerSpawnPoints : Node2D
 	}
 	public void SpawnPlayers()
 	{
-		GD.Print("Spawning Players");
 		int index = 0;
 		foreach (var player in GameManager.Players){
 
@@ -22,9 +21,11 @@ public partial class PlayerSpawnPoints : Node2D
 				{
 					if (point.GetChildren().Count == 0)
 						point.AddChild(currentPlayer, true);
-					point.GetChild<Player>(0).GlobalPosition = point.GlobalPosition;
+					var playerNode = point.GetChild<Player>(0);
+					playerNode.GlobalPosition = point.GlobalPosition;
+					playerNode.Reset();
 					if (index != 0)
-						point.GetChild<Player>(0).GetNode<Sprite2D>("PlayerSprite").FlipH = true;
+						playerNode.GetNode<Sprite2D>("PlayerSprite").FlipH = true;
 				}
 			}
 			index++;

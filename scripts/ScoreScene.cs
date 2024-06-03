@@ -21,8 +21,9 @@ public partial class ScoreScene : Panel
 	private void OnNextRoundButtonPressed()
 	{
 		GD.Print("Next Round Button Down");
-		GetParent().GetNode<Stage>("Stage").Rpc("ResetRound");
-		Rpc("HideAndUnpause");
+		var stage = GetParent().GetNode<Stage>("Stage");
+		stage.Rpc(nameof(stage.ResetRound));
+		Rpc(nameof(HideAndUnpause));
 	}
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
 	private void HideAndUnpause()

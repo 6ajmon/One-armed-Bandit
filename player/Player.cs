@@ -53,10 +53,10 @@ public partial class Player : CharacterBody2D
 		CurrentHealth -= damage;
 		if (CurrentHealth <= 0)
 		{
-			Rpc("Die");
+			Rpc(nameof(Die));
 		}
 		if (GetNodeOrNull<HealthBar>("HealthBar") != null)
-			healthBar.Rpc("SetHealth", CurrentHealth);
+			healthBar.Rpc(nameof(healthBar.SetHealth), CurrentHealth);
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
@@ -76,5 +76,11 @@ public partial class Player : CharacterBody2D
 		ScoreScene scoreScene = GetNode<ScoreScene>("/root/ScoreScene");
 		scoreScene.ShowScore();
 		QueueFree();
+	}
+	public void Reset()
+	{
+		CurrentHealth = MaxHealth;
+		healthBar.Rpc(nameof(healthBar.SetHealth), CurrentHealth);
+		GetNode<PlayerGun>("GunRotation").Reset();
 	}
 }

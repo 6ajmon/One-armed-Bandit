@@ -10,6 +10,17 @@ public partial class Stage : Node2D
     [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
 	public void ResetRound()
     {
+        if (Multiplayer.IsServer())
+        {
+            RemoveAllBullets();
+            Rpc(nameof(RemoveAllBullets));
+        }
+        
+        GetNode<PlayerSpawnPoints>("PlayerSpawnPoints").SpawnPlayers();
+    }
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+    private void RemoveAllBullets()
+    {
         foreach (Node child in GetTree().Root.GetChildren())
         {
             if (child is Bullet)
@@ -17,6 +28,5 @@ public partial class Stage : Node2D
                 child.QueueFree();
             }
         }
-        GetNode<PlayerSpawnPoints>("PlayerSpawnPoints").SpawnPlayers();
     }
 }

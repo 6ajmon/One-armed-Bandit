@@ -46,7 +46,7 @@ public partial class PlayerGun : Node2D
 					ammoBar.SetAmmo(remainingBullets);
 					canShoot = false;
 					shootingCooldown.Start();
-					Rpc("Shoot");
+					Rpc(nameof(Shoot));
 				}
 			}
 			syncRotation = RotationDegrees;
@@ -99,6 +99,11 @@ public partial class PlayerGun : Node2D
 		remainingBullets = magazineSize;
 		reloading = false;
 		ammoBar.EndReloading();
+		ammoBar.SetAmmo(remainingBullets);
+	}
+	public void Reset()
+	{
+		remainingBullets = magazineSize;
 		ammoBar.SetAmmo(remainingBullets);
 	}
 }

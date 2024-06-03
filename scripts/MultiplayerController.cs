@@ -85,7 +85,7 @@ public partial class MultiplayerController : Panel
 			GD.Print("Wait for other player to join");
 			return;
 		}
-		Rpc("startGame");
+		Rpc(nameof(startGame));
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
@@ -117,7 +117,7 @@ public partial class MultiplayerController : Panel
 		{
 			foreach(var player in GameManager.Players)
 			{
-				Rpc("sendPlayerInformation", player.Name, player.Id);
+				Rpc(nameof(sendPlayerInformation), player.Name, player.Id);
 			}
 		}
 	}
