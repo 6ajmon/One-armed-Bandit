@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bp7aq3etvkdor"]
+[gd_scene load_steps=15 format=3 uid="uid://bp7aq3etvkdor"]
 
 [ext_resource type="Script" path="res://player/Player.cs" id="1_a52xn"]
 [ext_resource type="PackedScene" uid="uid://blx88ryro77xb" path="res://scenes/Bullet.tscn" id="2_tfcje"]
@@ -13,6 +13,15 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v1pvu"]
 size = Vector2(41, 126)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2xyq0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ip20"]
+bg_color = Color(0.882353, 0.0705882, 0.137255, 1)
+
+[sub_resource type="Theme" id="Theme_bg8xo"]
+ProgressBar/styles/background = SubResource("StyleBoxFlat_2xyq0")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_4ip20")
+
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tvdps"]
 properties/0/path = NodePath("PlayerMovement:syncPosition")
 properties/0/spawn = true
@@ -20,15 +29,21 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath("GunRotation:syncRotation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
-properties/2/path = NodePath("GunRotation:isFlipped")
+properties/2/path = NodePath("GunRotation/AmmoBar:position")
 properties/2/spawn = true
 properties/2/replication_mode = 1
-properties/3/path = NodePath("GunRotation/AmmoBar:position")
+properties/3/path = NodePath("GunRotation/AmmoBar:value")
 properties/3/spawn = true
 properties/3/replication_mode = 1
-properties/4/path = NodePath("GunRotation/AmmoBar:value")
+properties/4/path = NodePath("GunRotation/AmmoBar:max_value")
 properties/4/spawn = true
 properties/4/replication_mode = 1
+properties/5/path = NodePath("GunRotation:isGunSpriteFlipped")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath("GunRotation:isPlayerSpriteFlipped")
+properties/6/spawn = true
+properties/6/replication_mode = 1
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 position = Vector2(-1, -80)
@@ -54,10 +69,10 @@ position = Vector2(38, 0)
 texture = ExtResource("5_m8t85")
 
 [node name="BulletSpawnPoint" type="Marker2D" parent="GunRotation/GunSprite"]
-position = Vector2(63, 0)
+position = Vector2(64, 1)
 
 [node name="ShootingCooldown" type="Timer" parent="GunRotation"]
-wait_time = 0.4
+wait_time = 0.3
 autostart = true
 
 [node name="Reload" type="Timer" parent="GunRotation"]
@@ -69,7 +84,7 @@ offset_left = 53.0
 offset_top = -15.0
 offset_right = 101.0
 offset_bottom = -6.0
-theme = ExtResource("7_hjiyx")
+theme = SubResource("Theme_bg8xo")
 show_percentage = false
 script = ExtResource("6_pa6ni")
 

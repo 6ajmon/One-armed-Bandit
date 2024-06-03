@@ -8,12 +8,14 @@ public partial class PlayerGun : Node2D
 	private float syncRotation = 0;
 	private bool canShoot = false;
 	private int remainingBullets = 0;
-	private bool isFlipped = false;
+	private bool isGunSpriteFlipped = false;
+	private bool isPlayerSpriteFlipped = false;
 	private Sprite2D gunSprite = null;
 	private bool reloading = false;
 	private AmmoBar ammoBar = null;
-	private bool isMoved = false;
-	Vector2 ammoBarPosition = new();
+	private bool isAmmoBarMoved = false;
+	private Vector2 ammoBarPosition = new();
+	private Sprite2D playerSprite = null;
 	public override void _Ready()
 	{
 		player = GetParent<Player>();
@@ -22,6 +24,7 @@ public partial class PlayerGun : Node2D
 		ammoBar = GetNode<AmmoBar>("AmmoBar");
 		ammoBar.SetAmmo(remainingBullets);
 		ammoBarPosition = ammoBar.Position;
+		playerSprite = player.GetNode<Sprite2D>("PlayerSprite");
 	}
 	public override void _Process(double delta)
 	{
@@ -34,6 +37,7 @@ public partial class PlayerGun : Node2D
 			{
 				reloading = true;
 				reload.Start();
+				ammoBar.StartReloading();
 			}
 			if (Input.IsActionJustPressed("shoot"))
 			{
@@ -44,37 +48,35 @@ public partial class PlayerGun : Node2D
 					shootingCooldown.Start();
 					Rpc("Shoot");
 				}
-				else{
-					GD.Print("Can't shoot yet " + shootingCooldown.TimeLeft + " " + remainingBullets);
-				}
 			}
 			syncRotation = RotationDegrees;
-			isFlipped = gunSprite.FlipV;
+			isGunSpriteFlipped = gunSprite.FlipV;
+			isPlayerSpriteFlipped = playerSprite.FlipH;
 		}
 		else {
 			RotationDegrees = Mathf.Lerp(RotationDegrees, syncRotation, player.lerpValue);
-			gunSprite.FlipV = isFlipped;
+			gunSprite.FlipV = isGunSpriteFlipped;
+			playerSprite.FlipH = isPlayerSpriteFlipped;
 		}
 	}
 	private void Aim(){
 		LookAt(GetViewport().GetMousePosition());
 		var angle = RotationDegrees % 360;
-		var sprite = player.GetNode<Sprite2D>("PlayerSprite");
 		
 		if (angle < 0) angle += 360;
 		if (angle > 360) angle -= 360; 
 		if (angle > 90 && angle < 270) {
 			gunSprite.FlipV = true;
-			sprite.FlipH = true;
-			if (!isMoved)
+			playerSprite.FlipH = true;
+			if (!isAmmoBarMoved)
 				ammoBar.Position = ammoBarPosition + new Vector2(0, 20);
-				isMoved = true;
+				isAmmoBarMoved = true;
 		}
 		else {
 			gunSprite.FlipV = false;
-			sprite.FlipH = false;
+			playerSprite.FlipH = false;
 			ammoBar.Position = ammoBarPosition;
-			isMoved = false;
+			isAmmoBarMoved = false;
 		}
 	}
 	
@@ -94,9 +96,9 @@ public partial class PlayerGun : Node2D
 	}
 	private void OnReloadTimeout()
 	{
-		GD.Print("Reloaded");
 		remainingBullets = magazineSize;
-		ammoBar.SetAmmo(remainingBullets);
 		reloading = false;
+		ammoBar.EndReloading();
+		ammoBar.SetAmmo(remainingBullets);
 	}
 }
