@@ -23,6 +23,12 @@ properties/1/replication_mode = 1
 properties/2/path = NodePath("GunRotation:isFlipped")
 properties/2/spawn = true
 properties/2/replication_mode = 1
+properties/3/path = NodePath("GunRotation/AmmoBar:position")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath("GunRotation/AmmoBar:value")
+properties/4/spawn = true
+properties/4/replication_mode = 1
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 position = Vector2(-1, -80)
