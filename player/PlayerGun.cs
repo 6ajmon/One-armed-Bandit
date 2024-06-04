@@ -39,6 +39,12 @@ public partial class PlayerGun : Node2D
 				reload.Start();
 				ammoBar.StartReloading();
 			}
+			if (Input.IsActionJustPressed("Reload") && !reloading)
+			{
+				reloading = true;
+				reload.Start();
+				ammoBar.StartReloading();
+			}
 			if (Input.IsActionJustPressed("shoot"))
 			{
 				if (canShoot && remainingBullets > 0){
@@ -96,14 +102,20 @@ public partial class PlayerGun : Node2D
 	}
 	private void OnReloadTimeout()
 	{
-		remainingBullets = magazineSize;
-		reloading = false;
-		ammoBar.EndReloading();
-		ammoBar.SetAmmo(remainingBullets);
+		if (reloading == true)
+		{
+			reloading = false;
+			remainingBullets = magazineSize;
+			ammoBar.EndReloading();
+			ammoBar.SetAmmo(remainingBullets);
+		}
 	}
 	public void Reset()
 	{
 		remainingBullets = magazineSize;
 		ammoBar.SetAmmo(remainingBullets);
+		ammoBar.EndReloading();
+		ammoBar.Value = ammoBar.MaxValue;
+		reloading = false;
 	}
 }
