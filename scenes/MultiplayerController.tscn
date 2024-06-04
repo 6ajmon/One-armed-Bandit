@@ -1,9 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://c5orju6vl8v7n"]
+[gd_scene load_steps=4 format=3 uid="uid://c5orju6vl8v7n"]
 
 [ext_resource type="Script" path="res://scripts/MultiplayerController.cs" id="1_dm8y7"]
+[ext_resource type="Theme" uid="uid://rw0j48vir218" path="res://assets/other/Theme.tres" id="2_0qoyq"]
+[ext_resource type="Texture2D" uid="uid://b4ichn0fqb4gb" path="res://assets/sprites/title.png" id="3_p1ko8"]
 
-[node name="MultiplayerController" type="Control"]
-layout_mode = 3
+[node name="MultiplayerController" type="Panel"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -11,46 +12,104 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_dm8y7")
 
-[node name="Host" type="Button" parent="."]
-layout_mode = 0
-offset_left = 58.0
-offset_top = 64.0
-offset_right = 229.0
-offset_bottom = 101.0
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -931.5
+offset_top = 116.0
+offset_right = 931.5
+offset_bottom = 323.0
+grow_horizontal = 2
+texture = ExtResource("3_p1ko8")
+
+[node name="Port" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -122.0
+offset_top = -169.0
+offset_right = 122.0
+offset_bottom = -73.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_0qoyq")
+theme_override_font_sizes/font_size = 64
+text = "1234"
+placeholder_text = "port"
+
+[node name="Ip" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -283.5
+offset_top = -51.0
+offset_right = 283.5
+offset_bottom = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_0qoyq")
+theme_override_font_sizes/font_size = 64
+text = "127.0.0.1"
+placeholder_text = "ip adress"
+
+[node name="Name" type="LineEdit" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -283.5
+offset_top = 61.0
+offset_right = 283.5
+offset_bottom = 157.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_0qoyq")
+theme_override_font_sizes/font_size = 64
+placeholder_text = "name"
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -178.0
+offset_top = -354.0
+offset_right = 178.0
+offset_bottom = -58.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Host" type="Button" parent="GridContainer"]
+layout_mode = 2
+theme = ExtResource("2_0qoyq")
+theme_override_font_sizes/font_size = 64
 text = "Host"
 
-[node name="Join" type="Button" parent="."]
-layout_mode = 0
-offset_left = 253.0
-offset_top = 65.0
-offset_right = 424.0
-offset_bottom = 102.0
+[node name="Join" type="Button" parent="GridContainer"]
+layout_mode = 2
+theme = ExtResource("2_0qoyq")
+theme_override_font_sizes/font_size = 64
 text = "Join
 "
 
-[node name="StartGame" type="Button" parent="."]
-layout_mode = 0
-offset_left = 447.0
-offset_top = 64.0
-offset_right = 618.0
-offset_bottom = 101.0
+[node name="StartGame" type="Button" parent="GridContainer"]
+layout_mode = 2
+theme = ExtResource("2_0qoyq")
+theme_override_font_sizes/font_size = 64
 text = "Start Game"
 
-[node name="LineEdit" type="LineEdit" parent="."]
-layout_mode = 0
-offset_left = 144.0
-offset_top = 23.0
-offset_right = 479.0
-offset_bottom = 54.0
-
-[node name="Label" type="Label" parent="."]
-layout_mode = 0
-offset_left = 92.0
-offset_top = 25.0
-offset_right = 132.0
-offset_bottom = 48.0
-text = "name:"
-
-[connection signal="button_down" from="Host" to="." method="_on_host_button_down"]
-[connection signal="button_down" from="Join" to="." method="_on_join_button_down"]
-[connection signal="button_down" from="StartGame" to="." method="_on_start_game_button_down"]
+[connection signal="button_down" from="GridContainer/Host" to="." method="_on_host_button_down"]
+[connection signal="button_down" from="GridContainer/Join" to="." method="_on_join_button_down"]
+[connection signal="button_down" from="GridContainer/StartGame" to="." method="_on_start_game_button_down"]

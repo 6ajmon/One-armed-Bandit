@@ -4,12 +4,13 @@
 [ext_resource type="Script" path="res://scripts/Bullet.cs" id="1_j2l1d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nbsc0"]
-size = Vector2(16, 16)
+size = Vector2(9.25, 9.25)
 
 [node name="Bullet" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 16
 script = ExtResource("1_j2l1d")
+Speed = 1200.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_esmpk")

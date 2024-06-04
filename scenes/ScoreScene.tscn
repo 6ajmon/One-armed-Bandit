@@ -1,0 +1,80 @@
+[gd_scene load_steps=3 format=3 uid="uid://bti3c50d0bwbp"]
+
+[ext_resource type="Script" path="res://scripts/ScoreScene.cs" id="1_vl55v"]
+[ext_resource type="Theme" uid="uid://rw0j48vir218" path="res://assets/other/Theme.tres" id="2_muo01"]
+
+[node name="ScoreScene" type="Panel"]
+process_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vl55v")
+
+[node name="PlayerScore1" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -1017.0
+offset_top = -252.0
+offset_right = -1017.0
+offset_bottom = -77.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_muo01")
+theme_override_font_sizes/font_size = 128
+text = "0"
+horizontal_alignment = 2
+
+[node name="PlayerScore2" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 1012.0
+offset_top = -252.0
+offset_right = 1012.0
+offset_bottom = -77.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_muo01")
+theme_override_font_sizes/font_size = 128
+text = "0"
+
+[node name="Dash" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -264.0
+offset_bottom = -89.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_muo01")
+theme_override_font_sizes/font_size = 128
+text = "-"
+horizontal_alignment = 1
+
+[node name="NextRoundButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -187.0
+offset_top = -341.0
+offset_right = 187.0
+offset_bottom = -245.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("2_muo01")
+theme_override_font_sizes/font_size = 64
+text = "Next Round"
+
+[connection signal="pressed" from="NextRoundButton" to="." method="OnNextRoundButtonPressed"]

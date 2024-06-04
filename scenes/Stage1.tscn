@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://bbiebjf1q7ubr"]
+
+[ext_resource type="PackedScene" uid="uid://6rqk2woa6elp" path="res://scenes/Stage.tscn" id="1_o743t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y1471"]
+size = Vector2(255.5, 383)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6mf3c"]
+size = Vector2(387, 66)
+
+[node name="Stage" instance=ExtResource("1_o743t")]
+
+[node name="Background" parent="." index="0"]
+rendering_quadrant_size = 64
+
+[node name="ObstaclesTileset" parent="Obstacles" index="0"]
+layer_0/tile_data = PackedInt32Array(786445, 3, 2, 851981, 3, 2, 917517, 3, 3, 786446, 65539, 2, 851982, 65539, 2, 917518, 65539, 3, 786447, 65539, 2, 851983, 65539, 2, 917519, 65539, 3, 655373, 3, 2, 720909, 3, 2, 655374, 65539, 2, 720910, 65539, 2, 655375, 65539, 2, 720911, 65539, 2, 589837, 3, 1, 589838, 65539, 1, 589839, 65539, 1, 589840, 131075, 1, 655376, 131075, 2, 720912, 131075, 2, 786448, 131075, 2, 851984, 131075, 2, 917520, 131075, 3, 655383, 196611, 1, 655384, 262147, 1, 655385, 262147, 1, 655386, 262147, 1, 655387, 262147, 1, 655388, 327683, 1, 655361, 196611, 1, 655362, 262147, 1, 655363, 262147, 1, 655364, 262147, 1, 655365, 262147, 1, 655366, 327683, 1, 655367, 262147, 3, 655382, 327683, 3, 720908, 327683, 3, 720913, 262147, 3)
+
+[node name="CentralBlock" type="CollisionShape2D" parent="Obstacles" index="1"]
+position = Vector2(959.25, 342.5)
+shape = SubResource("RectangleShape2D_y1471")
+
+[node name="LeftPlatform" type="CollisionShape2D" parent="Obstacles" index="2"]
+position = Vector2(255.5, 247)
+shape = SubResource("RectangleShape2D_6mf3c")
+one_way_collision = true
+
+[node name="RightPlatform" type="CollisionShape2D" parent="Obstacles" index="3"]
+position = Vector2(1664, 247)
+shape = SubResource("RectangleShape2D_6mf3c")
+one_way_collision = true

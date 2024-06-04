@@ -3,15 +3,22 @@ using System;
 
 public partial class PlayerMovement : Node2D
 {
+	[Export] public const float Speed = 800.0f;
 	private Player player = null;
-	public const float Speed = 400.0f;
-	public const float JumpVelocity = -600.0f;
 	private Vector2 syncPosition = new(0, 0);
-	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
-	private int jumpCount = 0;
+	[Export] private float jumpHeight = 1.0f;
+	[Export] private float timeToPeak = 0.25f;
+	[Export] private float timeToDescend = 0.25f;
+	private float jumpVelocity = 0.0f ;
+	private float jumpGravity = 0.0f;
+	private float fallGravity = 0.0f;
+	private int jumpCount = 0; 
 	public override void _Ready()
 	{
 		player = GetParent<Player>();
+		jumpVelocity = -2.0f * jumpHeight / timeToPeak;
+		jumpGravity = 2.0f * jumpHeight / Mathf.Pow(timeToPeak, 2);
+		fallGravity = 2.0f * jumpHeight / Mathf.Pow(timeToDescend, 2);
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -20,26 +27,29 @@ public partial class PlayerMovement : Node2D
 		{
 			Vector2 velocity = player.Velocity;
 
-			if (!player.IsOnFloor())
-				velocity.Y += gravity * (float)delta;
+			velocity.Y += getGravity() * (float)delta;
 
 			if (Input.IsActionJustPressed("ui_accept"))
 			{
 				if (player.IsOnFloor())
 				{
-					velocity.Y = JumpVelocity;
+					velocity.Y = jumpVelocity;
 					jumpCount = 1;
 				}
 				else if (jumpCount < 1)
 				{
-					velocity.Y = JumpVelocity;
+					velocity.Y = jumpVelocity;
 					jumpCount++;
 				}
 			}
 
 			if (player.IsOnFloor())
 				jumpCount = 0;
-				
+			
+			if (Input.IsActionJustPressed("ui_down") && player.IsOnFloor())
+			{
+				player.Position += new Vector2(0, 1);
+			}
 
 			Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
 			if (direction != Vector2.Zero)
@@ -60,5 +70,9 @@ public partial class PlayerMovement : Node2D
 		else {
 			player.GlobalPosition = player.GlobalPosition.Lerp(syncPosition, player.lerpValue);
 		}
+	}
+	private float getGravity()
+	{
+		return player.Velocity.Y < 0.0 ? jumpGravity : fallGravity;
 	}
 }
