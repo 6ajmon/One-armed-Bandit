@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://bp7aq3etvkdor"]
 
 [ext_resource type="Script" path="res://player/Player.cs" id="1_a52xn"]
-[ext_resource type="PackedScene" uid="uid://blx88ryro77xb" path="res://scenes/Bullet.tscn" id="2_tfcje"]
+[ext_resource type="PackedScene" uid="uid://blx88ryro77xb" path="res://scenes/bullet.tscn" id="2_tfcje"]
 [ext_resource type="Texture2D" uid="uid://qmy6c43hvw6c" path="res://assets/sprites/greenskelly.png" id="3_64fnp"]
 [ext_resource type="Script" path="res://player/PlayerGun.cs" id="5_fmsrl"]
 [ext_resource type="Texture2D" uid="uid://dimxtwgfjpawd" path="res://assets/sprites/greenskellyarm.png" id="5_m8t85"]
