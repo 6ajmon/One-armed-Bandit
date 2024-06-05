@@ -10,6 +10,7 @@ public partial class MultiplayerController : Panel
 	private ENetMultiplayerPeer peer;
 	private bool isPlayerJoined = false;
 	private DataBaseController dataBaseController = new();
+	private int countdown = 4;
 	public override void _Ready()
 	{
 		Multiplayer.PeerConnected += PeerConnected;
@@ -104,7 +105,28 @@ public partial class MultiplayerController : Panel
 			PrintLog("Wait for other player to join");
 			return;
 		}
-		Rpc(nameof(startGame));
+		Rpc(nameof(startGameCountdown));
+	}
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	private void startGameCountdown()
+	{
+		PrintLog("Game starts in " + (countdown - 1).ToString() + " seconds");
+		countdown--;
+		if(countdown == 0)
+		{
+			Rpc(nameof(startGame));
+		}
+		else
+		{
+			Timer timer = new()
+			{
+				WaitTime = 1.0f,
+				OneShot = true
+			};
+			timer.Timeout += startGameCountdown;
+			AddChild(timer);
+			timer.Start();
+		}
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
