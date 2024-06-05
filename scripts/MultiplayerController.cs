@@ -30,7 +30,7 @@ public partial class MultiplayerController : Panel
 			name = Multiplayer.GetUniqueId().ToString();
 		else
 			name = GetNode<LineEdit>("Name").Text;
-		RpcId(1, "sendPlayerInformation", name, Multiplayer.GetUniqueId());
+		RpcId(1, nameof(sendPlayerInformation), name, Multiplayer.GetUniqueId());
         GD.Print("Connected to Server");
     }
 
@@ -39,11 +39,13 @@ public partial class MultiplayerController : Panel
         GD.Print("Peer Disconnected: " + id.ToString());
 		GameManager.Players.Remove(GameManager.Players.Where(x => x.Id == id).First<PlayerInfo>());
 		var players = GetTree().GetNodesInGroup("Player");
-		foreach(Player player in players)
+		foreach(var player in players)
 		{
 			if(player.Name == id.ToString())
 			{
 				player.QueueFree();
+				GD.Print("Player Removed " + id.ToString());
+				break;
 			}
 		}
     }
@@ -136,4 +138,5 @@ public partial class MultiplayerController : Panel
 			}
 		}
 	}
+	
 }
