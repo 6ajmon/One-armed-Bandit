@@ -18,25 +18,25 @@ public partial class MultiplayerController : Panel
 		Multiplayer.ConnectionFailed += ConnectionFailed;
 	}
 
-    private void ConnectionFailed()
-    {
-        GD.Print("Connection Failed");
-    }
+	private void ConnectionFailed()
+	{
+		GD.Print("Connection Failed");
+	}
 
-    private void ConnectedToServer()
-    {
+	private void ConnectedToServer()
+	{
 		string name;
 		if (GetNode<LineEdit>("Name").Text == "")
 			name = Multiplayer.GetUniqueId().ToString();
 		else
 			name = GetNode<LineEdit>("Name").Text;
 		RpcId(1, nameof(sendPlayerInformation), name, Multiplayer.GetUniqueId());
-        GD.Print("Connected to Server");
-    }
+		GD.Print("Connected to Server");
+	}
 
-    private void PeerDisconnected(long id)
-    {
-        GD.Print("Peer Disconnected: " + id.ToString());
+	private void PeerDisconnected(long id)
+	{
+		GD.Print("Peer Disconnected: " + id.ToString());
 		GameManager.Players.Remove(GameManager.Players.Where(x => x.Id == id).First<PlayerInfo>());
 		var players = GetTree().GetNodesInGroup("Player");
 		foreach(var player in players)
@@ -48,7 +48,7 @@ public partial class MultiplayerController : Panel
 				break;
 			}
 		}
-    }
+	}
 
 	public void PeerConnected(long id)
 	{
@@ -108,7 +108,8 @@ public partial class MultiplayerController : Panel
 		{
 			foreach(var player in GameManager.Players)
 			{
-				dataBaseController.InsertPlayer(player);
+				if (Multiplayer.IsServer())
+					dataBaseController.InsertPlayer(player);
 			}
 		}
 		

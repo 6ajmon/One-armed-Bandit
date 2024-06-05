@@ -3,6 +3,7 @@ using System;
 
 public partial class ScoreScene : Panel
 {
+	public static DataBaseController dataBaseController = new();
 	public override void _Ready()
 	{
 		GD.Print("Score Scene Ready");
@@ -11,6 +12,9 @@ public partial class ScoreScene : Panel
 	public void ShowScore()
 	{
 		GetTree().Paused = true;
+		foreach (var player in GameManager.Players)
+			if (Multiplayer.IsServer())
+				dataBaseController.UpdateHighScore(player);
 		GD.Print("Showing Score");
 		GetNode<Label>("PlayerScore1").Text = GameManager.Players[0].Score.ToString();
 		GetNode<Label>("PlayerScore2").Text = GameManager.Players[1].Score.ToString();
@@ -35,12 +39,15 @@ public partial class ScoreScene : Panel
 	{
 		Rpc(nameof(HideAndUnpause));
 		Rpc(nameof(SendQuitInformation));
-		GameManager.dataBaseController.UpdateTotalScores(GameManager.Players[0], GameManager.Players[1]);
+		if (Multiplayer.IsServer())
+			dataBaseController.UpdateTotalScores(GameManager.Players[0], GameManager.Players[1]);
 		GetTree().Quit();
 	}
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
 	private void SendQuitInformation()
 	{
+		if (Multiplayer.IsServer())
+			dataBaseController.UpdateTotalScores(GameManager.Players[0], GameManager.Players[1]);
 		foreach (Node child in GetTree().Root.GetChildren())
 		{
 			if (child is not GameManager)

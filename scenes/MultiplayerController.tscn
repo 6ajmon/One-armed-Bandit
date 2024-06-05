@@ -111,6 +111,19 @@ theme = ExtResource("2_0qoyq")
 theme_override_font_sizes/font_size = 64
 text = "Start Game"
 
+[node name="Logs" type="TextEdit" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -516.0
+offset_top = -345.0
+grow_horizontal = 0
+grow_vertical = 0
+editable = false
+
 [connection signal="button_down" from="GridContainer/Host" to="." method="_on_host_button_down"]
 [connection signal="button_down" from="GridContainer/Join" to="." method="_on_join_button_down"]
 [connection signal="button_down" from="GridContainer/StartGame" to="." method="_on_start_game_button_down"]
