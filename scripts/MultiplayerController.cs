@@ -20,7 +20,7 @@ public partial class MultiplayerController : Panel
 
 	private void ConnectionFailed()
 	{
-		GD.Print("Connection Failed");
+		PrintLog("Connection Failed");
 	}
 
 	private void ConnectedToServer()
@@ -31,12 +31,12 @@ public partial class MultiplayerController : Panel
 		else
 			name = GetNode<LineEdit>("Name").Text;
 		RpcId(1, nameof(sendPlayerInformation), name, Multiplayer.GetUniqueId());
-		GD.Print("Connected to Server");
+		PrintLog("Connected to Server");
 	}
 
 	private void PeerDisconnected(long id)
 	{
-		GD.Print("Peer Disconnected: " + id.ToString());
+		PrintLog("Peer Disconnected: " + id.ToString());
 		GameManager.Players.Remove(GameManager.Players.Where(x => x.Id == id).First<PlayerInfo>());
 		var players = GetTree().GetNodesInGroup("Player");
 		foreach(var player in players)
@@ -44,7 +44,6 @@ public partial class MultiplayerController : Panel
 			if(player.Name == id.ToString())
 			{
 				player.QueueFree();
-				GD.Print("Player Removed " + id.ToString());
 				break;
 			}
 		}
@@ -53,18 +52,21 @@ public partial class MultiplayerController : Panel
 	public void PeerConnected(long id)
 	{
 		isPlayerJoined = true;
-		GD.Print("Peer Connected: " + id.ToString());
+		if (id == 1)
+			PrintLog("Connected to player. (UUID: " + id.ToString() + ")");
+		else
+			PrintLog("Player connected. (UUID: " + id.ToString() + ")");
 	}
 
 	public void _on_host_button_down()
 	{
 		port = int.Parse(GetNode<LineEdit>("Port").Text);
 		ip = GetNode<LineEdit>("Ip").Text;
-		peer = new ENetMultiplayerPeer();
+		peer = new();
 		var error = peer.CreateServer(port, 2);
 		if (error != Error.Ok)
 		{
-			GD.Print("Error creating server: " + error.ToString());
+			PrintLog("Error creating server: " + error.ToString());
 			return;
 		}
 		peer.Host.Compress(ENetConnection.CompressionMode.RangeCoder);
@@ -76,7 +78,8 @@ public partial class MultiplayerController : Panel
 		else
 			name = GetNode<LineEdit>("Name").Text;
 		sendPlayerInformation(name, 1);
-		GD.Print("Server Created waiting for players to join");
+		PrintLog("Hosting Server");
+		PrintLog("Port: " + port.ToString() + " Ip: " + ip);
 	}
 
 	public void _on_join_button_down()
@@ -84,18 +87,21 @@ public partial class MultiplayerController : Panel
 		port = int.Parse(GetNode<LineEdit>("Port").Text);
 		ip = GetNode<LineEdit>("Ip").Text;
 		peer = new();
-		peer.CreateClient(ip, port);
-
+		var error = peer.CreateClient(ip, port);
+		if (error != Error.Ok)
+		{
+			PrintLog("Error joining server: " + error.ToString());
+			return;
+		}
 		peer.Host.Compress(ENetConnection.CompressionMode.RangeCoder);
 		Multiplayer.MultiplayerPeer = peer;
-		GD.Print("Joining Server");	
 	}
 
 	public void _on_start_game_button_down()
 	{
 		if(!isPlayerJoined)
 		{
-			GD.Print("Wait for other player to join");
+			PrintLog("Wait for other player to join");
 			return;
 		}
 		Rpc(nameof(startGame));
@@ -139,5 +145,10 @@ public partial class MultiplayerController : Panel
 			}
 		}
 	}
-	
+	private void PrintLog(string message)
+	{
+		var logs = GetNode<TextEdit>("Logs");
+		logs.Text += message + "\n";
+		logs.ScrollVertical = double.MaxValue;
+	}
 }

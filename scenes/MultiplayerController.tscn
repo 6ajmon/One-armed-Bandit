@@ -122,7 +122,11 @@ offset_left = -516.0
 offset_top = -345.0
 grow_horizontal = 0
 grow_vertical = 0
+theme = ExtResource("2_0qoyq")
+theme_override_font_sizes/font_size = 32
 editable = false
+wrap_mode = 1
+scroll_smooth = true
 
 [connection signal="button_down" from="GridContainer/Host" to="." method="_on_host_button_down"]
 [connection signal="button_down" from="GridContainer/Join" to="." method="_on_join_button_down"]
