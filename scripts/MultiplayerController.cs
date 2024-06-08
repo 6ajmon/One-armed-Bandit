@@ -9,7 +9,6 @@ public partial class MultiplayerController : Panel
 	private string ip = "127.0.0.1";
 	private ENetMultiplayerPeer peer;
 	private bool isPlayerJoined = false;
-	private DataBaseController dataBaseController = new();
 	private int countdown = 4;
 	public override void _Ready()
 	{
@@ -132,15 +131,6 @@ public partial class MultiplayerController : Panel
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	private void startGame()
 	{
-		if (Multiplayer.IsServer())
-		{
-			foreach(var player in GameManager.Players)
-			{
-				if (Multiplayer.IsServer())
-					dataBaseController.InsertPlayer(player);
-			}
-		}
-		
 		var scene = ResourceLoader.Load<PackedScene>("res://scenes/Stage1.tscn").Instantiate() as Node2D;
 		var scoreScene = ResourceLoader.Load<PackedScene>("res://scenes/ScoreScene.tscn").Instantiate() as Control;
 		GetTree().Root.AddChild(scene);
