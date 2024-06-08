@@ -32,6 +32,10 @@ window/stretch/aspect="expand"
 
 project/assembly_name="Projekt na Programowanie"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg")
+
 [input]
 
 ui_left={
