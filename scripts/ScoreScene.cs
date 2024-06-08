@@ -33,14 +33,19 @@ public partial class ScoreScene : Panel
 	}
 	private void OnEndGameButtonPressed()
 	{
-		Rpc(nameof(EndGame));
-	}
-
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
-	private void EndGame()
-	{
-		GD.Print("End Game Button Down");
-		GameManager.dataBaseController.UpdateTotalScores(GameManager.Players[0], GameManager.Players[1]);
+		Rpc(nameof(HideAndUnpause));
+		Rpc(nameof(SendQuitInformation));
 		GetTree().Quit();
+	}
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+	private void SendQuitInformation()
+	{
+		foreach (Node child in GetTree().Root.GetChildren())
+		{
+			if (child is not GameManager)
+				child.QueueFree();
+		}
+		var mainMenuScene = ResourceLoader.Load<PackedScene>("res://scenes/MultiplayerController.tscn").Instantiate() as Panel;
+		GetTree().Root.AddChild(mainMenuScene);
 	}
 }

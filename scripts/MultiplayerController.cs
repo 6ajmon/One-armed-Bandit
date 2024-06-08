@@ -9,7 +9,7 @@ public partial class MultiplayerController : Panel
 	private string ip = "127.0.0.1";
 	private ENetMultiplayerPeer peer;
 	private bool isPlayerJoined = false;
-	private DataBaseController dataBaseController = new();
+	private int countdown = 4;
 	public override void _Ready()
 	{
 		Multiplayer.PeerConnected += PeerConnected;
@@ -18,51 +18,55 @@ public partial class MultiplayerController : Panel
 		Multiplayer.ConnectionFailed += ConnectionFailed;
 	}
 
-    private void ConnectionFailed()
-    {
-        GD.Print("Connection Failed");
-    }
+	private void ConnectionFailed()
+	{
+		PrintLog("Connection Failed");
+	}
 
-    private void ConnectedToServer()
-    {
+	private void ConnectedToServer()
+	{
 		string name;
 		if (GetNode<LineEdit>("Name").Text == "")
 			name = Multiplayer.GetUniqueId().ToString();
 		else
 			name = GetNode<LineEdit>("Name").Text;
-		RpcId(1, "sendPlayerInformation", name, Multiplayer.GetUniqueId());
-        GD.Print("Connected to Server");
-    }
+		RpcId(1, nameof(sendPlayerInformation), name, Multiplayer.GetUniqueId());
+		PrintLog("Connected to Server");
+	}
 
-    private void PeerDisconnected(long id)
-    {
-        GD.Print("Peer Disconnected: " + id.ToString());
+	private void PeerDisconnected(long id)
+	{
+		PrintLog("Peer Disconnected: " + id.ToString());
 		GameManager.Players.Remove(GameManager.Players.Where(x => x.Id == id).First<PlayerInfo>());
 		var players = GetTree().GetNodesInGroup("Player");
-		foreach(Player player in players)
+		foreach(var player in players)
 		{
 			if(player.Name == id.ToString())
 			{
 				player.QueueFree();
+				break;
 			}
 		}
-    }
+	}
 
 	public void PeerConnected(long id)
 	{
 		isPlayerJoined = true;
-		GD.Print("Peer Connected: " + id.ToString());
+		if (id == 1)
+			PrintLog("Connected to player. (UUID: " + id.ToString() + ")");
+		else
+			PrintLog("Player connected. (UUID: " + id.ToString() + ")");
 	}
 
 	public void _on_host_button_down()
 	{
 		port = int.Parse(GetNode<LineEdit>("Port").Text);
 		ip = GetNode<LineEdit>("Ip").Text;
-		peer = new ENetMultiplayerPeer();
+		peer = new();
 		var error = peer.CreateServer(port, 2);
 		if (error != Error.Ok)
 		{
-			GD.Print("Error creating server: " + error.ToString());
+			PrintLog("Error creating server: " + error.ToString());
 			return;
 		}
 		peer.Host.Compress(ENetConnection.CompressionMode.RangeCoder);
@@ -74,7 +78,8 @@ public partial class MultiplayerController : Panel
 		else
 			name = GetNode<LineEdit>("Name").Text;
 		sendPlayerInformation(name, 1);
-		GD.Print("Server Created waiting for players to join");
+		PrintLog("Hosting Server");
+		PrintLog("Port: " + port.ToString() + " Ip: " + ip);
 	}
 
 	public void _on_join_button_down()
@@ -82,34 +87,50 @@ public partial class MultiplayerController : Panel
 		port = int.Parse(GetNode<LineEdit>("Port").Text);
 		ip = GetNode<LineEdit>("Ip").Text;
 		peer = new();
-		peer.CreateClient(ip, port);
-
+		var error = peer.CreateClient(ip, port);
+		if (error != Error.Ok)
+		{
+			PrintLog("Error joining server: " + error.ToString());
+			return;
+		}
 		peer.Host.Compress(ENetConnection.CompressionMode.RangeCoder);
 		Multiplayer.MultiplayerPeer = peer;
-		GD.Print("Joining Server");	
 	}
 
 	public void _on_start_game_button_down()
 	{
 		if(!isPlayerJoined)
 		{
-			GD.Print("Wait for other player to join");
+			PrintLog("Wait for other player to join");
 			return;
 		}
-		Rpc(nameof(startGame));
+		Rpc(nameof(startGameCountdown));
+	}
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	private void startGameCountdown()
+	{
+		PrintLog("Game starts in " + (countdown - 1).ToString() + " seconds");
+		countdown--;
+		if(countdown == 0)
+		{
+			Rpc(nameof(startGame));
+		}
+		else
+		{
+			Timer timer = new()
+			{
+				WaitTime = 1.0f,
+				OneShot = true
+			};
+			timer.Timeout += startGameCountdown;
+			AddChild(timer);
+			timer.Start();
+		}
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	private void startGame()
 	{
-		if (Multiplayer.IsServer())
-		{
-			foreach(var player in GameManager.Players)
-			{
-				dataBaseController.InsertPlayer(player);
-			}
-		}
-		
 		var scene = ResourceLoader.Load<PackedScene>("res://scenes/Stage1.tscn").Instantiate() as Node2D;
 		var scoreScene = ResourceLoader.Load<PackedScene>("res://scenes/ScoreScene.tscn").Instantiate() as Control;
 		GetTree().Root.AddChild(scene);
@@ -135,5 +156,11 @@ public partial class MultiplayerController : Panel
 				Rpc(nameof(sendPlayerInformation), player.Name, player.Id);
 			}
 		}
+	}
+	private void PrintLog(string message)
+	{
+		var logs = GetNode<TextEdit>("Logs");
+		logs.Text += message + "\n";
+		logs.ScrollVertical = double.MaxValue;
 	}
 }

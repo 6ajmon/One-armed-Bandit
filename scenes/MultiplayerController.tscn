@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://b4ichn0fqb4gb" path="res://assets/sprites/title.png" id="3_p1ko8"]
 
 [node name="MultiplayerController" type="Panel"]
+top_level = true
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -109,6 +110,23 @@ layout_mode = 2
 theme = ExtResource("2_0qoyq")
 theme_override_font_sizes/font_size = 64
 text = "Start Game"
+
+[node name="Logs" type="TextEdit" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -516.0
+offset_top = -345.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("2_0qoyq")
+theme_override_font_sizes/font_size = 32
+editable = false
+wrap_mode = 1
+scroll_smooth = true
 
 [connection signal="button_down" from="GridContainer/Host" to="." method="_on_host_button_down"]
 [connection signal="button_down" from="GridContainer/Join" to="." method="_on_join_button_down"]
