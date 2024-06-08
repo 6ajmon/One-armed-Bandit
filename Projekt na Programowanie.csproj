@@ -9,9 +9,6 @@
     <RootNamespace>ProjektnaProgramowanie</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-        <PackageReference Include="gdUnit4.api" Version="4.2.*" />
-        <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.9.2" />
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.9.2" />
     <PackageReference Include="Microsoft.entityFrameworkCore.Design" Version="8.0.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
